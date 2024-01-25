@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DofusCrafter", "DofusCrafter\DofusCrafter.csproj", "{58638260-ADAD-4DC2-8479-77CEDF2D3540}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DofusCrafter.Data", "DofusCrafter.Data\DofusCrafter.Data.csproj", "{0752F4DE-8B19-4A61-BA47-764E2E2D3207}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
