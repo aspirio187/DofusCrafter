@@ -1,0 +1,65 @@
+﻿<Window x:Class="DofusCrafter.UI.Views.ShellView"
+        xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DofusCrafter.UI.Views"
+        xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        mc:Ignorable="d"
+        Title="Dofus Crafter" Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        locator:ViewModelLocator.AutoConnectedViewModelProperty="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel 
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Name="spHeader" 
+            Orientation="Horizontal" >
+            <Button 
+                Content="{materialIcons:MaterialIconExt Kind=KeyboardBackspace}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Width="40" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0">
+
+            <RadioButton 
+                Style="{StaticResource NavMenu}"
+                GroupName="Nav"
+                Content="Accueil"
+                Height="50" 
+                FontSize="25"
+                Command="{Binding NavigateHomeCommand}"/>
+
+            <RadioButton 
+                Style="{StaticResource NavMenu}"
+                GroupName="Nav"
+                Content="Mes ventes"
+                Height="50" 
+                FontSize="25"
+                Command="{Binding NavigateSalesCommand}"/>
+        </StackPanel>
+
+        <ContentControl
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="{Binding CurrentView}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"/>
+    </Grid>
+</Window>

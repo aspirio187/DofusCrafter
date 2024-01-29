@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DofusCrafter", "DofusCrafter\DofusCrafter.csproj", "{58638260-ADAD-4DC2-8479-77CEDF2D3540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DofusCrafter.Data", "DofusCrafter.Data\DofusCrafter.Data.csproj", "{0752F4DE-8B19-4A61-BA47-764E2E2D3207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DofusCrafter.Data", "DofusCrafter.Data\DofusCrafter.Data.csproj", "{0752F4DE-8B19-4A61-BA47-764E2E2D3207}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DofusCrafter.UI", "DofusCrafter.UI\DofusCrafter.UI.csproj", "{97ACF74E-87AD-472D-95F0-53513FB33A99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58638260-ADAD-4DC2-8479-77CEDF2D3540}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0752F4DE-8B19-4A61-BA47-764E2E2D3207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97ACF74E-87AD-472D-95F0-53513FB33A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97ACF74E-87AD-472D-95F0-53513FB33A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97ACF74E-87AD-472D-95F0-53513FB33A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97ACF74E-87AD-472D-95F0-53513FB33A99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
