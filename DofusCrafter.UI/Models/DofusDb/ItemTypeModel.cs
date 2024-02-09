@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -9,7 +10,8 @@ namespace DofusCrafter.UI.Models.DofusDb
 {
     public class ItemTypeModel
     {
-        public string _id { get; set; }
+        [JsonPropertyName("__id")]
+        public string DoubleUnderscoreId { get; set; } = string.Empty;
         public int Id { get; set; }
         public int NameId { get; set; }
         public NameModel? Name { get; set; }

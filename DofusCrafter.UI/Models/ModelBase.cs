@@ -64,6 +64,7 @@ namespace DofusCrafter.UI.Models
             }
 
             origin = value;
+            NotifyPropertyChanged(property);
         }
 
 

@@ -36,5 +36,24 @@ namespace DofusCrafter.UI.Services
 
             return result.Data;
         }
+
+        public async Task<ItemModel[]> SearchItemsAsync(string searchQuery)
+        {
+            if (searchQuery is null)
+            {
+                throw new ArgumentNullException(nameof(searchQuery));
+            }
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/items?slug.fr[$search]={searchQuery}&$limit=50");
+
+            var result = await response.Content.ReadFromJsonAsync<ResultModel<ItemModel>>();
+
+            if (result is null)
+            {
+                return [];
+            }
+
+            return result.Data;
+        }
     }
 }

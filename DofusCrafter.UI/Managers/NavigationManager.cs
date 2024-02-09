@@ -33,6 +33,8 @@ namespace DofusCrafter.UI.Managers
             }
         }
 
+        public List<Window> OpenedDialogs { get; private set; } = [];
+
         public NavigationManager(IServiceProvider serviceProvider)
         {
             if (serviceProvider is null)
@@ -70,7 +72,12 @@ namespace DofusCrafter.UI.Managers
                 throw new ArgumentNullException(nameof(viewName));
             }
 
-            var dialogWindow = new Window();
+            var window = new Window()
+            {
+                Name = viewName,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
 
             ContentControl? view = NavigationStack[viewName];
 
@@ -91,11 +98,27 @@ namespace DofusCrafter.UI.Managers
                 throw new NullReferenceException(nameof(view));
             }
 
-            dialogWindow.Content = view;
-            dialogWindow.Width = view.Width;
-            dialogWindow.Height = view.Height;
+            window.Content = view;
 
-            dialogWindow.ShowDialog();
+            OpenedDialogs.Add(window);
+
+            window.ShowDialog();
+        }
+
+        public void CloseDialog(string viewName)
+        {
+            if (string.IsNullOrEmpty(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            var openedDialog = OpenedDialogs.SingleOrDefault(o => o.Name.Equals(viewName));
+
+            if (openedDialog is not null)
+            {
+                openedDialog.Close();
+                OpenedDialogs.Remove(openedDialog);
+            }
         }
 
         public void Navigate(string viewName, bool save = false)

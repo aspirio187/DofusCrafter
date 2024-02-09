@@ -1,4 +1,5 @@
-﻿using DofusCrafter.UI.Managers;
+﻿using DofusCrafter.Data;
+using DofusCrafter.UI.Managers;
 using DofusCrafter.UI.Services;
 using DofusCrafter.UI.ViewModels;
 using DofusCrafter.UI.Views;
@@ -30,6 +31,8 @@ namespace DofusCrafter.UI
             {
                 httpclient.BaseAddress = new Uri("https://api.dofusdb.fr");
             });
+
+            services.AddScoped<DofusCrafterDbContext>();
 
             services.AddSingleton<NavigationManager>();
 

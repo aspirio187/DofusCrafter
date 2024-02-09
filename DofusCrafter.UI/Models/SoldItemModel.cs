@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DofusCrafter.UI.Models.DofusDb;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace DofusCrafter.UI.Models
             set => ValidateProperty(ref _quantity, value);
         }
 
-        private DateTime _soldDate;
+        private DateTime _soldDate = DateTime.Now;
 
         public DateTime SoldDate
         {
@@ -40,6 +41,5 @@ namespace DofusCrafter.UI.Models
             get => _image;
             set => ValidateProperty(ref _image, value);
         }
-
     }
 }

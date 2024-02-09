@@ -5,22 +5,37 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:DofusCrafter.UI.Views"
+    xmlns:cc="clr-namespace:DofusCrafter.UI.Controls"
     locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
     mc:Ignorable="d"
     d:DesignWidth="500">
-    <Grid Background="White">
+
+    <Grid Background="White" MaxWidth="500">
         <StackPanel>
+
+            <cc:Disclaimer Type="Warning" Margin="5" Content="Pour des statistiques détaillées, n'enregistrez que la quantité vendue même prix unitaire. Si plusieurs éléments se sont vendus mais à des prix différent, enregistrez les en plusieurs fois." />
+
             <DockPanel LastChildFill="True">
                 <Label 
                     Content="Ressource / Équipement vendu" 
                     Margin="5" 
                     Width="180"/>
-                <ComboBox
-                    IsEditable="True"
-                    Text="{Binding SoldItem.Name, NotifyOnTargetUpdated=True}"
-                    Margin="5"
-                    ItemsSource="{Binding Items}"/>
+
+                <TextBox 
+                    x:Name="soldItemName" 
+                    Text="{Binding SoldItem.Name}" 
+                    Margin="5" 
+                    VerticalContentAlignment="Center" >
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="TextChanged">
+                            <b:InvokeCommandAction 
+                                Command="{Binding ItemNameChangedCommand}" 
+                                PassEventArgsToCommand="True" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </TextBox>
             </DockPanel>
 
             <DockPanel LastChildFill="True">
@@ -30,7 +45,9 @@
                     Width="180"/>
                 <TextBox 
                     Text="{Binding SoldItem.Quantity}"
-                    Margin="5" />
+                    Margin="5"
+                    PreviewTextInput="OnQuantityPreviewTextChanged"
+                    VerticalContentAlignment="Center" />
             </DockPanel>
 
             <DockPanel LastChildFill="True">
@@ -40,7 +57,21 @@
                     Width="180" />
 
                 <DatePicker 
-                    SelectedDate="{Binding SoldItem.SaleDate}" 
+                    SelectedDate="{Binding SoldItem.SoldDate}" 
+                    VerticalContentAlignment="Center"
+                    Margin="5" />
+            </DockPanel>
+
+            <DockPanel LastChildFill="True">
+                <Label
+                    Content="Prix de la vente (unitaire)"
+                    Margin="5"
+                    Width="180" />
+
+                <TextBox 
+                    Text="{Binding SoldItem.Price}"
+                    VerticalContentAlignment="Center"
+                    PreviewTextInput="OnPricePreviewTextChanged"
                     Margin="5" />
             </DockPanel>
 
@@ -48,22 +79,44 @@
                 <Image
                     HorizontalAlignment="Left"
                     Margin="5"
-                    Source="{Binding Item.Image}"
+                    Source="{Binding SoldItem.Image}"
                     Width="50"
                     Height="50" />
 
                 <StackPanel>
                     <Button 
-                    Content="Enregistrer la vente"
-                    Command="{Binding SaveSaleCommand}"
-                    Margin="5" />
+                        Content="Enregistrer la vente"
+                        Command="{Binding SaveSaleCommand}"
+                        Margin="5" />
                     <Button
-                    Content="Annuler"
-                    Command="{Binding CancelSaleCommand}"
-                    Margin="5" />
+                        Content="Annuler"
+                        Command="{Binding CancelSaleCommand}"
+                        Margin="5" />
                 </StackPanel>
             </DockPanel>
 
+            <Popup 
+                x:Name="suggestionsPopup" 
+                PlacementTarget="{Binding ElementName=soldItemName}" 
+                IsOpen="{Binding ItemsPopupIsOpen}" >
+                <ListView 
+                    x:Name="suggestionsListView" 
+                    Width="200" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    ItemsSource="{Binding Items}" 
+                    SelectedIndex="{Binding SelectedIndex}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Slug.Fr}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </Popup>
         </StackPanel>
     </Grid>
 </ContentControl>
