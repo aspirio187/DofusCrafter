@@ -15,12 +15,12 @@ namespace DofusCrafter.UI.Globalization
 
         static Globalization()
         {
-            Initialize(typeof(Globalization).Namespace + ".strings");
+            _rm = Initialize(typeof(Globalization).Namespace + ".strings");
         }
 
-        private static void Initialize(string resourceFileName)
+        public static ResourceManager Initialize(string resourceFileName)
         {
-            _rm = new ResourceManager(resourceFileName, Assembly.GetExecutingAssembly());
+            return new ResourceManager(resourceFileName, Assembly.GetExecutingAssembly());
         }
 
         public static string? GetString(string name)

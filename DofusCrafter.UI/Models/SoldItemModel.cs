@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +15,10 @@ namespace DofusCrafter.UI.Models
     {
         private string _name = string.Empty;
 
+        [Required(
+            AllowEmptyStrings = false,
+            ErrorMessageResourceType = typeof(Globalization.Globalization),
+            ErrorMessageResourceName = "soldItemNameIsRequired")]
         public string Name
         {
             get => _name;

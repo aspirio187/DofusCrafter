@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DofusCrafter.UI.Controls"
+                    xmlns:converters="clr-namespace:DofusCrafter.UI.Converters">
+
+    <converters:StringNullOrEmptyToVisilibityConverter x:Key="StringNullOrEmptyToVisibilityConverter" />
+
+    <Style TargetType="local:ErrorDisplay">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ErrorDisplay">
+                    <Grid>
+                        <!-- Content presenter for displaying error message -->
+                        <TextBlock
+                            Text="{TemplateBinding ErrorMessage}"
+                            Foreground="Red"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
