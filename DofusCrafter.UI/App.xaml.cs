@@ -19,6 +19,7 @@ namespace DofusCrafter.UI
 
         public App()
         {
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr-FR");
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 

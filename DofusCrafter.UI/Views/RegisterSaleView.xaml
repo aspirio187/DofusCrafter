@@ -8,6 +8,7 @@
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:DofusCrafter.UI.Views"
     xmlns:cc="clr-namespace:DofusCrafter.UI.Controls"
+    xmlns:g="clr-namespace:DofusCrafter.UI.Globalization"
     locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
     mc:Ignorable="d"
     d:DesignWidth="500">
@@ -15,7 +16,7 @@
     <Grid Background="White" MaxWidth="500">
         <StackPanel>
 
-            <cc:Disclaimer Type="Warning" Margin="5" Content="Pour des statistiques détaillées, n'enregistrez que la quantité vendue même prix unitaire. Si plusieurs éléments se sont vendus mais à des prix différent, enregistrez les en plusieurs fois." />
+            <cc:Disclaimer Type="Warning" Margin="5" Content="{g:LocalizedString soldItemWarning}" />
 
             <DockPanel LastChildFill="True">
                 <Label 
