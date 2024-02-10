@@ -43,7 +43,7 @@ namespace DofusCrafter.UI.Models
             set => ValidateProperty(ref _soldDate, value);
         }
 
-        private string _image = "/Assets/Images/unknown-item.jpeg";
+        private string _image = string.Empty;
 
         public string Image
         {

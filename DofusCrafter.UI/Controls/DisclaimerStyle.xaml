@@ -10,9 +10,7 @@
                         CornerRadius="10" 
                         BorderThickness="1" 
                         Margin="{TemplateBinding Margin}"
-                        Padding="8"
-                        MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                        <!-- Bind MaxWidth to the ActualWidth of the parent UserControl -->
+                        Padding="8" >
                         <TextBlock
                             Text="{TemplateBinding Content}"
                             TextWrapping="Wrap"
