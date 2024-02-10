@@ -11,16 +11,21 @@ namespace DofusCrafter.UI.Globalization
 {
     public static class Globalization
     {
-        private static ResourceManager _rm;
+        private static ResourceManager? _rm;
 
         static Globalization()
         {
-            _rm = new ResourceManager("DofusCrafter.UI.Globalization.strings", Assembly.GetExecutingAssembly());
+            Initialize(typeof(Globalization).Namespace + ".strings");
+        }
+
+        private static void Initialize(string resourceFileName)
+        {
+            _rm = new ResourceManager(resourceFileName, Assembly.GetExecutingAssembly());
         }
 
         public static string? GetString(string name)
         {
-            return _rm.GetString(name);
+            return _rm?.GetString(name);
         }
 
         public static void ChangeLanguage(string language)
