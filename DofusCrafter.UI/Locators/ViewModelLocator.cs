@@ -32,20 +32,35 @@ namespace DofusCrafter.UI.Locators
         private static void AutoConnectedViewModelChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             Type viewType = obj.GetType();
-            if (viewType is null) throw new NullReferenceException(nameof(viewType));
+
+            if (viewType is null)
+            {
+                throw new NullReferenceException(nameof(viewType));
+            }
 
             string viewTypeName = viewType.FullName ?? throw new NullReferenceException(nameof(viewType.FullName));
             string viewModelTypeName = string.Concat(viewTypeName.Split('.').Last(), "Model");
 
             System.Reflection.Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
             System.Reflection.Assembly? currentAssembly = assemblies
-                .SingleOrDefault(a => a.FullName is not null && a.FullName.Contains(AppDomain.CurrentDomain.FriendlyName));
+                .SingleOrDefault(a => 
+                    a.FullName is not null && 
+                    a.FullName.Contains(AppDomain.CurrentDomain.FriendlyName) &&
+                    !a.FullName.Contains("resources", StringComparison.InvariantCultureIgnoreCase));
 
-            if (currentAssembly is null) throw new NullReferenceException(nameof(currentAssembly));
-            Type viewModelType = currentAssembly.DefinedTypes.SingleOrDefault(t => t.Name.Equals(viewModelTypeName))
-                ?? throw new NullReferenceException(nameof(viewModelTypeName));
+            if (currentAssembly is null)
+            {
+                throw new NullReferenceException(nameof(currentAssembly));
+            }
 
-            object viewModel = ServiceProvider.GetService(viewModelType) ?? throw new NullReferenceException(nameof(viewModelType));
+            Type viewModelType = currentAssembly
+                .DefinedTypes
+                .SingleOrDefault(t => t.Name.Equals(viewModelTypeName)) ??
+                    throw new NullReferenceException(nameof(viewModelTypeName));
+
+            object viewModel = ServiceProvider.GetService(viewModelType) ??
+                throw new NullReferenceException(nameof(viewModelType));
 
             ((FrameworkElement)obj).DataContext = viewModel;
         }

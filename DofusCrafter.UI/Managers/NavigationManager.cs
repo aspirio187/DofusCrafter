@@ -52,15 +52,18 @@ namespace DofusCrafter.UI.Managers
             AppDomain currentDomain = AppDomain.CurrentDomain;
             Assembly[] assemblies = currentDomain.GetAssemblies();
 
-            var currentAsseblies = assemblies
-                .SingleOrDefault(a => !string.IsNullOrEmpty(a.FullName) && a.FullName.Contains(currentDomain.FriendlyName));
+            Assembly? currentAssembly = assemblies
+                .SingleOrDefault(a =>
+                    a.FullName is not null &&
+                    a.FullName.Contains(AppDomain.CurrentDomain.FriendlyName) &&
+                    !a.FullName.Contains("resources", StringComparison.InvariantCultureIgnoreCase));
 
-            if (currentAsseblies is null)
+            if (currentAssembly is null)
             {
                 throw new NullReferenceException($"The asseblies doesn't contain a {currentDomain.FriendlyName}");
             }
 
-            _currentAssembly = currentAsseblies;
+            _currentAssembly = currentAssembly;
 
             NavigationStack = new ViewIterator();
         }

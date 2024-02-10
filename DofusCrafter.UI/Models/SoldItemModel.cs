@@ -26,6 +26,15 @@ namespace DofusCrafter.UI.Models
             set => ValidateProperty(ref _quantity, value);
         }
 
+        private string _price = string.Empty;
+
+        public string Price
+        {
+            get => _price;
+            set => ValidateProperty(ref _price, value);
+        }
+
+
         private DateTime _soldDate = DateTime.Now;
 
         public DateTime SoldDate

@@ -38,6 +38,7 @@ namespace DofusCrafter.UI
             services.AddSingleton<NavigationManager>();
 
             services.AddScoped<DofusDBService>();
+            //services.AddScoped<ISalesService, SalesService>();
 
             services.AddTransient<ShellViewModel>();
             services.AddTransient<HomeViewModel>();
