@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DofusCrafter.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace DofusCrafter.Data
     public class DofusCrafterDbContext : DbContext
     {
         public string DbPath { get; }
+
+        public DbSet<SaleEntity> Sales { get; set; }
+
         public DofusCrafterDbContext()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
