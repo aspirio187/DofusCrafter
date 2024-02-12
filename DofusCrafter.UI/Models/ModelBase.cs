@@ -41,7 +41,13 @@ namespace DofusCrafter.UI.Models
         {
             get
             {
-                bool isValid = Validator.TryValidateObject(this, new ValidationContext(this), ValidationResults, true);
+                bool isValid = Validator
+                    .TryValidateObject(
+                        this,
+                        new ValidationContext(this),
+                        ValidationResults,
+                        true);
+
                 return isValid == true;
             }
         }
@@ -102,7 +108,7 @@ namespace DofusCrafter.UI.Models
                 {
                     ValidationResult validationResult = ValidationResults[i];
 
-                    if (validationResult.MemberNames.Equals(property))
+                    if (validationResult.MemberNames.Contains(property))
                     {
                         ValidationResults.Remove(validationResult);
                         i--;
@@ -110,7 +116,13 @@ namespace DofusCrafter.UI.Models
                 }
             }
 
+            // Clean duplicated results
+            CleanResults();
+
+            // Assign the new value to the original value
             origin = value;
+
+            // Notify that the current property has changed
             NotifyPropertyChanged(property);
         }
 
