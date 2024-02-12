@@ -1,15 +1,21 @@
 ﻿<Window x:Class="DofusCrafter.UI.Views.ShellView"
         xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
+        xmlns:converters="clr-namespace:DofusCrafter.UI.Converters"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DofusCrafter.UI.Views"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
         mc:Ignorable="d"
         Title="Dofus Crafter" Height="600" Width="1200"
-        WindowStartupLocation="CenterScreen"
-        locator:ViewModelLocator.AutoConnectedViewModelProperty="True">
+        WindowStartupLocation="CenterScreen" >
+
+    <Window.Resources>
+        <converters:CurrentViewIsChecked x:Key="CurrentViewIsChecked" />
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -27,11 +33,13 @@
             Grid.ColumnSpan="2"
             Name="spHeader" 
             Orientation="Horizontal" >
+
             <Button 
                 Content="{materialIcons:MaterialIconExt Kind=KeyboardBackspace}"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                Width="40" />
+                Width="40" 
+                Command="{Binding NavigateBackCommand}" />
         </StackPanel>
 
         <StackPanel
@@ -44,7 +52,10 @@
                 Content="Accueil"
                 Height="50" 
                 FontSize="25"
-                Command="{Binding NavigateHomeCommand}"/>
+                Command="{Binding NavigateHomeCommand}"
+                IsChecked="{Binding CurrentView, 
+                            Converter={StaticResource CurrentViewIsChecked}, 
+                            ConverterParameter=HomeView }"/>
 
             <RadioButton 
                 Style="{StaticResource NavMenu}"
@@ -52,7 +63,21 @@
                 Content="Mes ventes"
                 Height="50" 
                 FontSize="25"
-                Command="{Binding NavigateSalesCommand}"/>
+                Command="{Binding NavigateSalesCommand}" 
+                IsChecked="{Binding CurrentView, 
+                            Converter={StaticResource CurrentViewIsChecked}, 
+                            ConverterParameter=SalesView }"/>
+
+            <RadioButton
+                Style="{StaticResource NavMenu}"
+                GroupName="Nav"
+                Content="Mes confections"
+                Height="50"
+                FontSize="25"
+                Command="{Binding NavigateConfectionsCommand}" 
+                IsChecked="{Binding ConfectionView, 
+                            Converter={StaticResource CurrentViewIsChecked}, 
+                            ConverterParameter=SalesView }"/>
         </StackPanel>
 
         <ContentControl
@@ -60,6 +85,6 @@
             Grid.Column="1"
             Content="{Binding CurrentView}"
             VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"/>
+            HorizontalAlignment="Stretch" />
     </Grid>
 </Window>

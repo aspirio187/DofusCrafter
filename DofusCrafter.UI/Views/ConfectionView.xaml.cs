@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace DofusCrafter.UI.Views
 {
     /// <summary>
-    /// Logique d'interaction pour DialogView.xaml
+    /// Logique d'interaction pour ConfectionView.xaml
     /// </summary>
-    public partial class DialogView : ContentControl
+    public partial class ConfectionView : UserControl
     {
-        public DialogView()
+        public ConfectionView()
         {
             InitializeComponent();
         }

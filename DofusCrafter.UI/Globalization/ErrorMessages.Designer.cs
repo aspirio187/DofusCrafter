@@ -61,11 +61,29 @@ namespace DofusCrafter.UI.Globalization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à There is no content here yet.
+        /// </summary>
+        public static string NoContent {
+            get {
+                return ResourceManager.GetString("NoContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The error message in english but I want it in french.
         /// </summary>
-        public static string soldItemNameIsRequired {
+        public static string SoldItemNameIsRequired {
             get {
-                return ResourceManager.GetString("soldItemNameIsRequired", resourceCulture);
+                return ResourceManager.GetString("SoldItemNameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à .
+        /// </summary>
+        public static string SoldItemWarning {
+            get {
+                return ResourceManager.GetString("SoldItemWarning", resourceCulture);
             }
         }
     }

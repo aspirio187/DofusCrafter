@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="soldItemNameIsRequired" xml:space="preserve">
+  <data name="NoContent" xml:space="preserve">
+    <value>Il n'y a encore rien ici. En construction :)</value>
+  </data>
+  <data name="SoldItemNameIsRequired" xml:space="preserve">
+    <value>Le nom de l'item vendu est requis !</value>
+  </data>
+  <data name="SoldItemWarning" xml:space="preserve">
     <value>Pour des statistiques détaillées, n'enregistrez que la quantité vendue même prix unitaire. Si plusieurs éléments se sont vendus mais à des prix différent, enregistrez les en plusieurs fois.</value>
   </data>
 </root>

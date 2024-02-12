@@ -11,13 +11,11 @@ namespace DofusCrafter.UI.Globalization
 {
     public static class Globalization
     {
-        private static ResourceManager? _rm;
-
-        public static ResourceManager ResourceManager => _rm;
+        private static ResourceManager _rm;
 
         static Globalization()
         {
-            _rm = Initialize(typeof(Globalization).Namespace + ".strings");
+            _rm = Initialize(typeof(Globalization).Namespace + ".ErrorMessages");
         }
 
         public static ResourceManager Initialize(string resourceFileName)

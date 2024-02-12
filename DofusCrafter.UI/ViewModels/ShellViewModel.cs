@@ -19,6 +19,7 @@ namespace DofusCrafter.UI.ViewModels
 
         public ICommand NavigateHomeCommand { get; private set; }
         public ICommand NavigateSalesCommand { get; private set; }
+        public ICommand NavigateBackCommand { get; private set; }
 
         public ContentControl CurrentView
         {
@@ -49,13 +50,14 @@ namespace DofusCrafter.UI.ViewModels
 
             NavigateHomeCommand = new GenericCommand(NavigateHome);
             NavigateSalesCommand = new GenericCommand(NavigateSales);
+            NavigateBackCommand = new GenericCommand(NavigateBack); 
 
             NavigateHomeCommand.Execute(this);
         }
 
         private void NavigateHome()
         {
-            _navigationManager.Navigate("HomeView");
+            _navigationManager.Navigate("HomeView", true);
         }
 
         private void NavigateSales()
@@ -76,6 +78,14 @@ namespace DofusCrafter.UI.ViewModels
             }
 
             CurrentView = _navigationManager.CurrentView;
+        }
+
+        private void NavigateBack()
+        {
+            if (_navigationManager.CanNavigateBack())
+            {
+                _navigationManager.NavigateBack();
+            }
         }
     }
 }
