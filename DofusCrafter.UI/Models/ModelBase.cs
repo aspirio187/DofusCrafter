@@ -98,9 +98,15 @@ namespace DofusCrafter.UI.Models
             }
             else
             {
-                foreach (ValidationResult validationResult in ValidationResults)
+                for (int i = 0; i < ValidationResults.Count; i++)
                 {
-                    ValidationResults.Remove(validationResult);
+                    ValidationResult validationResult = ValidationResults[i];
+
+                    if (validationResult.MemberNames.Equals(property))
+                    {
+                        ValidationResults.Remove(validationResult);
+                        i--;
+                    }
                 }
             }
 

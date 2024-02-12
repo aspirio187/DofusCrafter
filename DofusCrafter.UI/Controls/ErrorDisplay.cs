@@ -10,14 +10,23 @@ using System.Windows.Controls;
 
 namespace DofusCrafter.UI.Controls
 {
+    /// <summary>
+    /// Custom control for displaying error messages based on a property of a <see cref="ModelBase"/> object.
+    /// </summary>
     public class ErrorDisplay : Control
     {
+        /// <summary>
+        /// Static constructor for the <see cref="ErrorDisplay"/> class.
+        /// </summary>
         static ErrorDisplay()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ErrorDisplay), new FrameworkPropertyMetadata(typeof(ErrorDisplay)));
+            DefaultStyleKeyProperty
+                .OverrideMetadata(typeof(ErrorDisplay), new FrameworkPropertyMetadata(typeof(ErrorDisplay)));
         }
 
-        // DependencyProperty for the model property to monitor for errors
+        /// <summary>
+        /// Identifies the <see cref="Model"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty
                 .Register(
@@ -26,14 +35,18 @@ namespace DofusCrafter.UI.Controls
                     typeof(ErrorDisplay),
                     new PropertyMetadata(null, OnModelPropertyChanged));
 
-        // Model property to monitor for errors
+        /// <summary>
+        /// Gets or sets the model associated with the error display.
+        /// </summary>
         public ModelBase Model
         {
             get => (ModelBase)GetValue(ModelProperty);
             set => SetValue(ModelProperty, value);
         }
 
-        // DependencyProperty for the error message
+        /// <summary>
+        /// Identifies the <see cref="PropertyName"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty PropertyNameProperty =
             DependencyProperty
                 .Register(
@@ -42,14 +55,18 @@ namespace DofusCrafter.UI.Controls
                     typeof(ErrorDisplay),
                     new PropertyMetadata(null));
 
-        // Error message property
+        /// <summary>
+        /// Gets or sets the name of the property for which the error message is displayed.
+        /// </summary>
         public string PropertyName
         {
             get => (string)GetValue(PropertyNameProperty);
             set => SetValue(PropertyNameProperty, value);
         }
 
-        // DependencyProperty for the error message
+        /// <summary>
+        /// Identifies the <see cref="ErrorMessage"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ErrorMessageProperty =
             DependencyProperty
                 .Register(
@@ -58,45 +75,71 @@ namespace DofusCrafter.UI.Controls
                     typeof(ErrorDisplay),
                     new PropertyMetadata(null));
 
-        // Error message property
+        /// <summary>
+        /// Gets or sets the error message to be displayed.
+        /// </summary>
         public string ErrorMessage
         {
             get => (string)GetValue(ErrorMessageProperty);
             set => SetValue(ErrorMessageProperty, value);
         }
 
-        // Callback method when the model property changes
+        /// <summary>
+        /// Event handler for the PropertyChanged event of the model property. 
+        /// Subscribes to PropertyChanged event to monitor changes in the model.
+        /// </summary>
+        /// <param name="d">The <see cref="DependencyObject"/> on which the event handler is attached.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> containing event data.</param>
         private static void OnModelPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (ErrorDisplay)d;
+            ErrorDisplay control = (ErrorDisplay)d;
             if (e.NewValue is ModelBase newModel)
             {
                 // Subscribe to PropertyChanged event to monitor changes in the model
-                newModel.PropertyChanged += control.Model_PropertyChanged;
+                newModel.PropertyChanged += control.OnModelPropertyChanged;
             }
         }
 
-        // Event handler for PropertyChanged event of the model
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Event handler for the PropertyChanged event of the model instance.
+        /// Updates the error message when a property of the model changes.
+        /// </summary>
+        /// <param name="sender">The object that triggered the event.</param>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> containing event data.</param>
+        private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName))
             {
                 throw new NullReferenceException(nameof(e.PropertyName));
             }
 
-            if (!Model.IsValid)
+            if (sender is null)
             {
-                System.ComponentModel.DataAnnotations.ValidationResult? validationResult =
-                    Model.ValidationResults.FirstOrDefault(vr => vr.MemberNames.Contains(e.PropertyName));
+                throw new ArgumentNullException(nameof(sender));
+            }
 
-                if (validationResult is not null)
+            if (sender is not ModelBase modelBase)
+            {
+                throw new InvalidCastException(
+                    $"{nameof(sender)} must be of type or inherit of type {typeof(ModelBase)}");
+            }
+
+            if (modelBase.IsValid)
+            {
+                ErrorMessage = string.Empty;
+                return;
+            }
+
+            System.ComponentModel.DataAnnotations.ValidationResult? validationResult =
+                Model.ValidationResults.FirstOrDefault(vr => vr.MemberNames.Equals(e.PropertyName));
+
+            if (validationResult is not null)
+            {
+                string? errorMessage = validationResult.ErrorMessage;
+
+                if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    string? errorMessage = validationResult.ErrorMessage;
-
-                    if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        ((TextBlock)sender).Text = errorMessage;
-                    }
+                    ErrorMessage = errorMessage;
                 }
             }
         }

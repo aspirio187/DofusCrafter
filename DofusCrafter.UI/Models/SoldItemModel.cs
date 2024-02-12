@@ -1,4 +1,4 @@
-﻿using DofusCrafter.UI.Models.DofusDb;
+﻿using DofusCrafter.UI.Globalization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,7 @@ namespace DofusCrafter.UI.Models
 
         [Required(
             AllowEmptyStrings = false,
-            ErrorMessageResourceType = typeof(Globalization.Globalization),
+            ErrorMessageResourceType = typeof(ErrorMessages),
             ErrorMessageResourceName = "soldItemNameIsRequired")]
         public string Name
         {

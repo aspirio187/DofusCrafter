@@ -16,7 +16,8 @@
                             Foreground="Red"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}" />
+                            Visibility="{TemplateBinding ErrorMessage, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}" 
+                            TextWrapping="Wrap" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
