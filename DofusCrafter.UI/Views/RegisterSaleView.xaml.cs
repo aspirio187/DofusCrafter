@@ -73,5 +73,10 @@ namespace DofusCrafter.UI.Views
                 e.Handled = true;
             }
         }
+
+        private void OnItemNameFocusLost(object sender, RoutedEventArgs e)
+        {
+            SuggestionsPopup.IsOpen = false;
+        }
     }
 }

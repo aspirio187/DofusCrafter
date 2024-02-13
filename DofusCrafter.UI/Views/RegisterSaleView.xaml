@@ -16,7 +16,7 @@
     <Grid Background="White" MaxWidth="500">
         <StackPanel>
 
-            <cc:Disclaimer Type="Warning" Margin="5" Content="{g:LocalizedString soldItemWarning}" />
+            <cc:Disclaimer Type="Warning" Margin="5" Content="{g:LocalizedString SoldItemWarning}" />
 
             <StackPanel >
                 <DockPanel LastChildFill="True">
@@ -29,7 +29,8 @@
                         x:Name="soldItemName" 
                         Text="{Binding SoldItem.Name}" 
                         Margin="5" 
-                        VerticalContentAlignment="Center" >
+                        VerticalContentAlignment="Center" 
+                        LostFocus="OnItemNameFocusLost">
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="TextChanged">
                                 <b:InvokeCommandAction 
@@ -101,7 +102,7 @@
             </DockPanel>
 
             <Popup 
-                x:Name="suggestionsPopup" 
+                x:Name="SuggestionsPopup" 
                 PlacementTarget="{Binding ElementName=soldItemName}" 
                 IsOpen="{Binding ItemsPopupIsOpen}" >
                 <ListView 

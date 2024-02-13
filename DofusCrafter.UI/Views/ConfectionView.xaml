@@ -21,7 +21,7 @@
         <Border
             BorderThickness="0 0 0 1"
             BorderBrush="Black" >
-            <StackPanel>
+            <StackPanel Margin="5">
                 <StackPanel Margin="5">
                     <Label Content="Nom de l'item"/>
 
@@ -31,7 +31,7 @@
                         VerticalContentAlignment="Center" />
                 </StackPanel>
 
-                <Button 
+                <Button
                     Content="Enregistrer une confection" 
                     Command="{Binding RegisterConfectionCommand}" />
             </StackPanel>

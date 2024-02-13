@@ -131,7 +131,7 @@ namespace DofusCrafter.UI.Controls
             }
 
             System.ComponentModel.DataAnnotations.ValidationResult? validationResult =
-                Model.ValidationResults.FirstOrDefault(vr => vr.MemberNames.Equals(e.PropertyName));
+                Model.ValidationResults.FirstOrDefault(vr => vr.MemberNames.Contains(e.PropertyName));
 
             if (validationResult is not null)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ namespace DofusCrafter.UI.Locators
         /// <param name="e">The event arguments containing the property change information.</param>
         private static void AutoConnectedViewModelChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+            if (DesignerProperties.GetIsInDesignMode(obj))
+            {
+                return;
+            }
+
             Type viewType = obj.GetType();
 
             if (viewType is null)

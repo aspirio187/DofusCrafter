@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DofusCrafter.UI.Views.RegisterConfectionView"
+             xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DofusCrafter.UI.Views"
+             locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
+             mc:Ignorable="d"
+             MinHeight="500" d:DesignWidth="800">
+    <Grid Background="White">
+        <!--
+            1. Selectionner l'objet à confectioner
+            2. Charger les items requis à sa confection
+            3. Pour chaque item requis à la confection, autoriser l'utilisateur à entrer un prix et une quantité:
+                - Epee de boisalle : bois de frene 10x
+                    - Bois de frene 5 - 2500 kamas/unité
+                    - Bois de frene 1 - 2501 kamas/unité
+                    - Bois de frene 4 - 2502 kamas/unité
+            4. Afficher le prix total de la confection
+            5. (Optionel) ajouter le prix moyen de l'objet
+            6. Ajouter le prix en vente/le prix de vente souhaité
+        -->
+
+        <Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <DockPanel LastChildFill="True">
+                <Label Content="Recherche" />
+                <TextBox Text="{Binding SearchQuery}" />
+            </DockPanel>
+
+            <DockPanel LastChildFill="True">
+                <Image Source="{Binding SelectedItem.Img}" />
+                <TextBlock Text="{Binding SelectedItem.Name}" />
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

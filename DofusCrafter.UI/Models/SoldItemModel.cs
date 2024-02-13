@@ -18,7 +18,7 @@ namespace DofusCrafter.UI.Models
         [Required(
             AllowEmptyStrings = false,
             ErrorMessageResourceType = typeof(ErrorMessages),
-            ErrorMessageResourceName = "soldItemNameIsRequired")]
+            ErrorMessageResourceName = "SoldItemNameIsRequired")]
         public string Name
         {
             get => _name;
