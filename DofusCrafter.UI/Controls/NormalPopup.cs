@@ -24,6 +24,8 @@ namespace DofusCrafter.UI.Controls
         private bool? _appliedTopmost;
         private bool _alreadyLoaded;
         private Window? _parentWindow;
+        private int _x;
+        private int _y;
 
         public bool IsTopmost
         {
@@ -46,14 +48,10 @@ namespace DofusCrafter.UI.Controls
 
             _alreadyLoaded = true;
 
-            if (Child is not null)
-            {
-                Child
-                    .AddHandler(
-                        PreviewMouseLeftButtonUpEvent,
-                        new MouseButtonEventHandler(OnChildPreviewMouseLeftButtonDown),
-                        true);
-            }
+            Child?.AddHandler(
+                    PreviewMouseLeftButtonUpEvent,
+                    new MouseButtonEventHandler(OnChildPreviewMouseLeftButtonDown),
+                    true);
 
             _parentWindow = Window.GetWindow(this);
 
@@ -64,6 +62,7 @@ namespace DofusCrafter.UI.Controls
 
             _parentWindow.Activated += OnParentWindowActivated;
             _parentWindow.Deactivated += OnParentWindowDeactivated;
+            _parentWindow.LocationChanged += OnParentWindowLocationChanged;
         }
 
         private void OnPopupUnloaded(object sender, RoutedEventArgs e)
@@ -88,6 +87,11 @@ namespace DofusCrafter.UI.Controls
             {
                 SetTopmostState(IsTopmost);
             }
+        }
+
+        private void OnParentWindowLocationChanged(object? sender, EventArgs e)
+        {
+            
         }
 
         private void OnChildPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
