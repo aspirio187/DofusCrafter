@@ -46,7 +46,7 @@ namespace DofusCrafter.UI.Services
 
             HttpResponseMessage response = await _httpClient.GetAsync($"/items?slug.fr[$search]={searchQuery}&$limit=50");
 
-            var result = await response.Content.ReadFromJsonAsync<ResultModel<ItemModel>>();
+            ResultModel<ItemModel>? result = await response.Content.ReadFromJsonAsync<ResultModel<ItemModel>>();
 
             if (result is null)
             {
@@ -54,6 +54,28 @@ namespace DofusCrafter.UI.Services
             }
 
             return result.Data;
+        }
+
+        /// <summary>
+        /// Get the recipe of an item
+        /// </summary>
+        /// <param name="itemId">The id of the item. Must be greater than 0</param>
+        /// <returns>
+        /// The recipe model if it exist. Null otherwise
+        /// </returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public async Task<RecipeModel?> GetItemRecipeAsync(int itemId)
+        {
+            if (itemId < 0)
+            {
+                throw new IndexOutOfRangeException(nameof(itemId));
+            }
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/recipes/{itemId}");
+
+            RecipeModel? result = await response.Content.ReadFromJsonAsync<RecipeModel>();
+
+            return result;
         }
     }
 }

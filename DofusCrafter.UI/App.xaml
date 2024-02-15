@@ -8,6 +8,7 @@
                 <ResourceDictionary Source="Themes/NavMenuTheme.xaml" />
                 <ResourceDictionary Source="Controls/DisclaimerStyle.xaml" />
                 <ResourceDictionary Source="Controls/ErrorDisplayStyle.xaml" />
+                <ResourceDictionary Source="Controls/SuggestionTextBoxStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

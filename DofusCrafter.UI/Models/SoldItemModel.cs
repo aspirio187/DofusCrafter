@@ -22,7 +22,10 @@ namespace DofusCrafter.UI.Models
         public string Name
         {
             get => _name;
-            set => ValidateProperty(ref _name, value);
+            set
+            {
+                ValidateProperty(ref _name, value);
+            }
         }
 
         private string _quantity = string.Empty;

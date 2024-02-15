@@ -76,7 +76,7 @@ namespace DofusCrafter.UI.Views
 
         private void OnItemNameFocusLost(object sender, RoutedEventArgs e)
         {
-            SuggestionsPopup.IsOpen = false;
+            //SuggestionsPopup.IsOpen = false;
         }
     }
 }
