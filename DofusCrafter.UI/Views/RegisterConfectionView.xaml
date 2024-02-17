@@ -1,161 +1,122 @@
-﻿<UserControl x:Class="DofusCrafter.UI.Views.RegisterConfectionView"
-             xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DofusCrafter.UI.Views"
-             locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
-             mc:Ignorable="d"
-             MinHeight="500" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="DofusCrafter.UI.Views.RegisterConfectionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DofusCrafter.UI.Views"
+    xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinHeight="500"
+    d:DesignWidth="800"
+    locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
+    mc:Ignorable="d">
     <Grid Background="White">
         <!--
             1. Selectionner l'objet à confectioner
             2. Charger les items requis à sa confection
             3. Pour chaque item requis à la confection, autoriser l'utilisateur à entrer un prix et une quantité:
-                - Epee de boisalle : bois de frene 10x
-                    - Bois de frene 5 - 2500 kamas/unité
-                    - Bois de frene 1 - 2501 kamas/unité
-                    - Bois de frene 4 - 2502 kamas/unité
+            - Epee de boisalle : bois de frene 10x
+            - Bois de frene 5 - 2500 kamas/unité
+            - Bois de frene 1 - 2501 kamas/unité
+            - Bois de frene 4 - 2502 kamas/unité
             4. Afficher le prix total de la confection
             5. (Optionel) ajouter le prix moyen de l'objet
             6. Ajouter le prix en vente/le prix de vente souhaité
         -->
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="4*" MinHeight="250" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border 
-            BorderThickness="1"
-            BorderBrush="LightGray" 
-            Grid.Row="0">
+        <Border
+            Grid.Row="0"
+            Margin="0,5"
+            BorderBrush="LightGray"
+            BorderThickness="1">
             <StackPanel>
                 <DockPanel LastChildFill="True">
                     <Label Content="Recherche" />
                     <TextBox Text="{Binding SearchQuery}" />
                 </DockPanel>
-
-                <DockPanel LastChildFill="True" MinHeight="100">
-                    <Image 
-                        Source="{Binding SelectedItem.Img}" 
-                        MinWidth="100" />
-                    <TextBlock 
-                        Text="{Binding SelectedItem.Name}" 
-                        VerticalAlignment="Top" />
-                </DockPanel>
-
             </StackPanel>
         </Border>
+
 
         <StackPanel Grid.Row="1">
             <DockPanel LastChildFill="True">
                 <Image
-                    Source="https://api.dofusdb.fr/img/items/16349.png"
                     Width="50"
                     Height="50"
-                    Margin="5"/>
+                    Margin="5"
+                    Source="{Binding Result.Img}" />
 
                 <StackPanel>
-                    <TextBlock 
-                        Text="Coiffe de Padgref"
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        Padding="3"
                         FontSize="14"
                         FontWeight="SemiBold"
-                        Margin="0 0 0 5" 
-                        Padding="3" />
-                    <DockPanel 
-                        Margin="0 0 0 5" >
-                        <TextBlock 
-                            Text="Niveau "
-                            FontSize="10" />
-                        <TextBlock
-                            Text="198"
-                            FontSize="10" />
+                        Text="{Binding Result.ItemName}" />
+                    <DockPanel Margin="0,0,0,5">
+                        <TextBlock FontSize="10" Text="Niveau " />
+                        <TextBlock FontSize="10" Text="{Binding Result.Level}" />
                     </DockPanel>
-                    <TextBlock 
-                        Text="Cette coiffe ressemble à la tête du dernier Scarabosse Ivoire, écrabouillé par Padgref durant ses jeunes années. Le marchand qui vous l'a vendue vous a assuré qu'il s'agissait de l'originale. Le mystère de l'étiquette indiquant « Fabriqué en 10 000 exemplaires » reste donc entier."
-                        TextWrapping="Wrap"
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        Padding="3"
                         FontSize="12"
-                        Margin="0 0 0 5" 
-                        Padding="3" />
+                        Text="{Binding Result.Description}"
+                        TextWrapping="Wrap" />
                 </StackPanel>
             </DockPanel>
 
-            <StackPanel>
+            <ListView ItemsSource="{Binding Recipe.Ingredients}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="LightGray" BorderThickness="1">
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="LightGray" BorderThickness="1">
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="25" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
+                                <Border
+                                    Grid.Column="0"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1">
+                                    <Image
+                                        Width="25"
+                                        Height="25"
+                                        Source="{Binding Img}" />
+                                </Border>
 
-                        <Border
-                            Grid.Column="0"
-                            BorderBrush="LightGray" 
-                            BorderThickness="1" >
-                            <Image 
-                                Source="https://api.dofusdb.fr/img/items/15759.png" 
-                                Width="25"
-                                Height="25"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Width="auto"
+                                    Padding="5"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Name}" />
+
+                                <TextBlock
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Quantity}" />
+                            </Grid>
                         </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-                        <TextBlock 
-                            Grid.Column="1"
-                            Text="Culotte à l'envers du Roissingue" 
-                            VerticalAlignment="Center"
-                            Padding="5"
-                            HorizontalAlignment="Stretch" 
-                            Width="auto"/>
-
-                        <TextBlock
-                            Grid.Column="2"
-                            Text="x6" 
-                            VerticalAlignment="Center" 
-                            HorizontalAlignment="Center" />
-                    </Grid>
-                </Border>
-            </StackPanel>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
         </StackPanel>
-
-
-
-        <!--<ListView 
-            Grid.Row="1" 
-            ScrollViewer.CanContentScroll="True" >
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel LastChildFill="True">
-                        <Image
-                            Width="50"
-                            Height="50"/>
-
-                        <StackPanel>
-                            <TextBlock 
-                                Text="{Binding Name}"
-                                FontSize="14"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="{Binding Level}"
-                                FontSize="8" />
-                            <TextBlock 
-                                Text="{Binding Description}"
-                                TextWrapping="Wrap"
-                                FontSize="12" />
-                        </StackPanel>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>-->
     </Grid>
 </UserControl>

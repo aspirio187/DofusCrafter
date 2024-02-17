@@ -1,24 +1,21 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style
         x:Key="NavMenu"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type RadioButton}">
         <Style.Setters>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontWeight" Value="Light" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border 
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="Black">
-                            <TextBlock 
-                                Text="{TemplateBinding Property=Content}"
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Black">
+                            <TextBlock
+                                HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
+                                Text="{TemplateBinding Property=Content}" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -26,16 +23,12 @@
         </Style.Setters>
 
         <Style.Triggers>
-            <Trigger 
-                Property="IsChecked"
-                Value="True">
+            <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="LightGray" />
                 <Setter Property="Opacity" Value="0.4" />
             </Trigger>
 
-            <Trigger 
-                Property="IsMouseOver" 
-                Value="True" >
+            <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="LightGray" />
                 <Setter Property="Opacity" Value="0.4" />
             </Trigger>

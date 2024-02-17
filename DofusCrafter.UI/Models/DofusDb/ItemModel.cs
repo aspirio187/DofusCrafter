@@ -68,7 +68,7 @@ namespace DofusCrafter.UI.Models.DofusDb
         public int ApCost { get; set; }
         public bool CastInDiagonal { get; set; }
         public int DescriptionId { get; set; }
-        public DescriptionModel? Description { get; set; }
+        public DescriptionModel Description { get; set; } = new DescriptionModel();
         public string CraftFeasible { get; set; } = string.Empty;
         public bool CastTestLos { get; set; }
         public int RealWeight { get; set; }
