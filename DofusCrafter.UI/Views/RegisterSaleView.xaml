@@ -11,8 +11,7 @@
     xmlns:g="clr-namespace:DofusCrafter.UI.Globalization"
     xmlns:models="clr-namespace:DofusCrafter.UI.Models"
     locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
-    mc:Ignorable="d" 
-    d:DesignWidth="500">
+    mc:Ignorable="d" >
 
     <Grid Background="White" MaxWidth="500">
         <StackPanel>
@@ -30,21 +29,23 @@
                         Text="{Binding SoldItem.Name}"
                         TextChangedCommand="{Binding ItemNameChangedCommand}"
                         IsOpen="{Binding ItemsPopupIsOpen}" 
-                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                        SelectedIndex="{Binding SelectedIndex}"
                         Suggestions="{Binding Items}" 
                         SuggestionType="models:SoldItemModel"
                         Margin="5" >
 
                         <cc:SuggestionTextBox.PlaceHolder>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Slug.Fr, Mode=TwoWay}" />
+                                <TextBlock Text="{Binding Slug.Fr}" />
                             </DataTemplate>
                         </cc:SuggestionTextBox.PlaceHolder>
 
                     </cc:SuggestionTextBox>
                 </DockPanel>
 
-                <cc:ErrorDisplay Model="{Binding SoldItem}" PropertyName="{Binding SoldItem.Name}" />
+                <cc:ErrorDisplay 
+                    Model="{Binding SoldItem}" 
+                    PropertyName="{Binding SoldItem.Name}" />
             </StackPanel>
 
             <DockPanel LastChildFill="True">

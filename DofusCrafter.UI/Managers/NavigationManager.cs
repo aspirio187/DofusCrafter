@@ -79,8 +79,10 @@ namespace DofusCrafter.UI.Managers
             {
                 Name = viewName,
                 SizeToContent = SizeToContent.WidthAndHeight,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ResizeMode = ResizeMode.NoResize
             };
+
 
             ContentControl? view = NavigationStack[viewName];
 
