@@ -9,13 +9,13 @@ using System.Windows.Input;
 
 namespace DofusCrafter.UI.ViewModels
 {
-    public class ConfectionViewModel : ViewModelBase
+    public class ConfectionsViewModel : ViewModelBase
     {
         private readonly NavigationManager _navigationManager;
 
         public ICommand RegisterConfectionCommand { get; private set; }
 
-        public ConfectionViewModel(NavigationManager navigationManager)
+        public ConfectionsViewModel(NavigationManager navigationManager)
         {
             if (navigationManager is null)
             {

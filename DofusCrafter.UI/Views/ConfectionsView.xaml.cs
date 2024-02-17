@@ -18,9 +18,9 @@ namespace DofusCrafter.UI.Views
     /// <summary>
     /// Logique d'interaction pour ConfectionView.xaml
     /// </summary>
-    public partial class ConfectionView : UserControl
+    public partial class ConfectionsView : UserControl
     {
-        public ConfectionView()
+        public ConfectionsView()
         {
             InitializeComponent();
         }

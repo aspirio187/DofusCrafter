@@ -44,6 +44,8 @@ namespace DofusCrafter.UI
             services.AddTransient<HomeViewModel>();
             services.AddTransient<SalesViewModel>();
             services.AddTransient<RegisterSaleViewModel>();
+            services.AddTransient<ConfectionsViewModel>();
+            services.AddTransient<RegisterConfectionViewModel>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
