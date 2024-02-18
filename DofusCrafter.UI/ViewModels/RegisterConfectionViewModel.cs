@@ -7,6 +7,7 @@ using DofusCrafter.UI.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,13 +31,13 @@ namespace DofusCrafter.UI.ViewModels
         /// <summary>
         /// The list of loaded items from DofusDB api based on the text entered in the sold item name
         /// </summary>
-        private List<ItemModel> _items = [];
+        private ObservableCollection<ItemModel> _items = [];
 
         /// <summary>
         /// Gets or sets the list of items available for sale. Notify the UI if a change occured to the property.
         /// If the list of items to set is greater than 0, set <see cref="ItemsPopupIsOpen"/> to true.
         /// </summary>
-        public List<ItemModel> Items
+        public ObservableCollection<ItemModel> Items
         {
             get { return _items; }
             set
@@ -133,19 +134,15 @@ namespace DofusCrafter.UI.ViewModels
         /// <summary>
         /// The list of registered ingredients by the user
         /// </summary>
-        private List<IngredientDto> _registeredIngredients = [];
+        private ObservableCollection<RegisteredIngredientDto> _registeredIngredients = [];
 
         /// <summary>
         /// Gets or sets the list of registered ingredients by the user
         /// </summary>
-        public List<IngredientDto> RegisteredIngredients
+        public ObservableCollection<RegisteredIngredientDto> RegisteredIngredients
         {
             get { return _registeredIngredients; }
-            set
-            {
-                _registeredIngredients = value;
-                NotifyPropertyChanged();
-            }
+            set { _registeredIngredients = value; }
         }
 
         /// <summary>
@@ -255,11 +252,72 @@ namespace DofusCrafter.UI.ViewModels
             _navigationManager.OpenDialog("RegisterIngredientView", this, parameters);
         }
 
+        /// <summary>
+        /// Retrieves the different parameters from <paramref name="parameters"/> (ingredient id, quantity, total price)
+        /// and add the object to the list of registered ingredients <see cref="RegisteredIngredients"/>
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidCastException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         public override void OnNavigatedFrom(Dictionary<string, object>? parameters)
         {
-            base.OnNavigatedFrom(parameters);
+            if (parameters is null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
 
+            if (parameters["ingredientId"] is not int ingredientId)
+            {
+                throw new InvalidCastException($"parameter \"ingredientId\" is not of type int");
+            }
 
+            if (ingredientId < 0)
+            {
+                throw new IndexOutOfRangeException(nameof(ingredientId));
+            }
+
+            if (parameters["quantity"] is not int quantity)
+            {
+                throw new InvalidCastException($"parameter \"quantity\" is not of type int");
+            }
+
+            if (parameters["totalPrice"] is not int totalPrice)
+            {
+                throw new InvalidCastException($"parameter \"totalPrice\" is not of type int");
+            }
+
+            IngredientDto? registeredIngredient = Recipe.Ingredients.SingleOrDefault(i => i.Id == ingredientId);
+
+            if (registeredIngredient is null)
+            {
+                throw new NullReferenceException(nameof(registeredIngredient));
+            }
+
+            RegisteredIngredientDto? existingRegisteredIngredient =
+                RegisteredIngredients.SingleOrDefault(ri => ri.SelectedIngredient.Id == ingredientId);
+
+            if (existingRegisteredIngredient is null)
+            {
+                RegisteredIngredientDto ingredientToRegister = new RegisteredIngredientDto()
+                {
+                    SelectedIngredient = registeredIngredient,
+                    TotalPrice = totalPrice,
+                    QuantityRegistered = quantity
+                };
+
+                RegisteredIngredients.Add(ingredientToRegister);
+            }
+            else
+            {
+                RegisteredIngredients.Remove(existingRegisteredIngredient);
+
+                existingRegisteredIngredient.TotalPrice += totalPrice;
+                existingRegisteredIngredient.QuantityRegistered += quantity;
+
+                RegisteredIngredients.Add(existingRegisteredIngredient);
+            }
         }
     }
 }

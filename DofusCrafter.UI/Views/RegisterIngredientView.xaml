@@ -14,6 +14,7 @@
     <StackPanel
         MinWidth="350"
         MaxWidth="350"
+        Margin="5"
         Background="White">
 
         <cc:Disclaimer
@@ -45,12 +46,18 @@
 
         <DockPanel Margin="5" LastChildFill="True">
             <Label Width="80" Content="Quantité" />
-            <TextBox PreviewTextInput="OnPreviewTextInput" Text="{Binding Quantity}" />
+            <TextBox
+                VerticalContentAlignment="Center"
+                PreviewTextInput="OnPreviewTextInput"
+                Text="{Binding Quantity}" />
         </DockPanel>
 
         <DockPanel Margin="5" LastChildFill="True">
             <Label Width="80" Content="Prix total" />
-            <TextBox Text="{Binding TotalPrice}" />
+            <TextBox
+                VerticalContentAlignment="Center"
+                PreviewTextInput="OnPreviewTextInput"
+                Text="{Binding TotalPrice}" />
         </DockPanel>
 
         <Button

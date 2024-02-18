@@ -148,7 +148,10 @@ namespace DofusCrafter.UI.Managers
                     throw new NullReferenceException($"The content control of the opened view {viewName} is null and should never be null");
                 }
 
-                viewModel.OnNavigatedFrom(parameters);
+                if (parameters is not null)
+                {
+                    viewModel.OnNavigatedFrom(parameters);
+                }
 
                 window.Close();
                 OpenedDialogs.Remove(openedDialog.Key);

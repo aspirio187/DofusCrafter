@@ -111,11 +111,21 @@ namespace DofusCrafter.UI.ViewModels
         /// </summary>
         private void Save()
         {
+            if (!int.TryParse(Quantity, out int quantity))
+            {
+                throw new InvalidCastException(nameof(quantity));
+            }
+
+            if (!int.TryParse(TotalPrice, out int totalPrice))
+            {
+                throw new InvalidCastException(nameof(TotalPrice));
+            }
+
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 { "ingredientId", SelectedIngredient.Id },
-                { "quantity", Quantity },
-                { "totalPrice", TotalPrice },
+                { "quantity", quantity },
+                { "totalPrice", totalPrice },
             };
 
             _navigationManager.CloseDialog("RegisterIngredientView", parameters);
