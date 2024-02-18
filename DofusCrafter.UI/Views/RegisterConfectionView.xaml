@@ -8,11 +8,9 @@
     xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:DofusCrafter.UI.Models"
-    MinHeight="500"
-    d:Width="800"
     locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
     mc:Ignorable="d">
-    <Grid MaxWidth="1000" Background="White">
+    <Grid MinWidth="1000" Background="White">
         <!--
             1. Selectionner l'objet à confectioner
             2. Charger les items requis à sa confection
@@ -94,7 +92,7 @@
                     <DataTemplate>
                         <DockPanel LastChildFill="True">
                             <Border
-                                MinWidth="800"
+                                MinWidth="1250"
                                 BorderBrush="LightGray"
                                 BorderThickness="1">
                                 <Grid Margin="5" HorizontalAlignment="Stretch">
@@ -131,7 +129,7 @@
                             </Border>
 
                             <Button
-                                Command="{Binding RegisterIngredientCommand}"
+                                Command="{Binding DataContext.RegisterIngredientCommand, RelativeSource={RelativeSource AncestorType={x:Type local:RegisterConfectionView}}}"
                                 CommandParameter="{Binding Id}"
                                 Content="Enregistrer" />
                         </DockPanel>

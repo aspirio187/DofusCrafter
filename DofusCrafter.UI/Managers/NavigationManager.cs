@@ -1,4 +1,6 @@
-﻿using DofusCrafter.UI.Iterators;
+﻿using DofusCrafter.UI.Interfaces;
+using DofusCrafter.UI.Iterators;
+using DofusCrafter.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ namespace DofusCrafter.UI.Managers
             }
         }
 
-        public List<Window> OpenedDialogs { get; private set; } = [];
+        public Dictionary<ViewModelBase, Window> OpenedDialogs { get; private set; } = [];
 
         public NavigationManager(IServiceProvider serviceProvider)
         {
@@ -68,11 +70,16 @@ namespace DofusCrafter.UI.Managers
             NavigationStack = new ViewIterator();
         }
 
-        public void OpenDialog(string viewName)
+        public void OpenDialog(string viewName, ViewModelBase caller, Dictionary<string, object>? parameters = null)
         {
             if (viewName is null)
             {
                 throw new ArgumentNullException(nameof(viewName));
+            }
+
+            if (caller is null)
+            {
+                throw new ArgumentNullException(nameof(caller));
             }
 
             var window = new Window()
@@ -103,26 +110,48 @@ namespace DofusCrafter.UI.Managers
                 throw new NullReferenceException(nameof(view));
             }
 
+            var datacontext = view.DataContext;
+
+            if (parameters is not null && datacontext is not null && datacontext is IDialogWithParameters dialogWithParameters)
+            {
+                dialogWithParameters.OnNavigatedTo(parameters);
+            }
+
             window.Content = view;
 
-            OpenedDialogs.Add(window);
+            OpenedDialogs.Add(caller, window);
 
             window.ShowDialog();
         }
 
-        public void CloseDialog(string viewName)
+        public void CloseDialog(string viewName, Dictionary<string, object>? parameters = null)
         {
             if (string.IsNullOrEmpty(viewName))
             {
                 throw new ArgumentNullException(nameof(viewName));
             }
 
-            var openedDialog = OpenedDialogs.SingleOrDefault(o => o.Name.Equals(viewName));
+            KeyValuePair<ViewModelBase, Window> openedDialog = OpenedDialogs.SingleOrDefault(o => o.Value.Name.Equals(viewName));
 
-            if (openedDialog is not null)
+            if (openedDialog.Value is not null)
             {
-                openedDialog.Close();
-                OpenedDialogs.Remove(openedDialog);
+                var window = openedDialog.Value;
+                var viewModel = openedDialog.Key;
+
+                if (viewModel is null)
+                {
+                    throw new ArgumentNullException(nameof(viewModel));
+                }
+
+                if (window.Content is not ContentControl contentControl)
+                {
+                    throw new NullReferenceException($"The content control of the opened view {viewName} is null and should never be null");
+                }
+
+                viewModel.OnNavigatedFrom(parameters);
+
+                window.Close();
+                OpenedDialogs.Remove(openedDialog.Key);
             }
         }
 

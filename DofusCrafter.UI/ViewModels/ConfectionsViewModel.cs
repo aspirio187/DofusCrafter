@@ -29,7 +29,7 @@ namespace DofusCrafter.UI.ViewModels
 
         private void RegisterConfection()
         {
-            _navigationManager.OpenDialog("RegisterConfectionView");
+            _navigationManager.OpenDialog("RegisterConfectionView", this);
         }
     }
 }

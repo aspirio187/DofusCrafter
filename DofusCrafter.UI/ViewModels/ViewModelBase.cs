@@ -19,5 +19,9 @@ namespace DofusCrafter.UI.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public virtual void OnNavigatedFrom(Dictionary<string, object>? parameters)
+        {
+        }
     }
 }

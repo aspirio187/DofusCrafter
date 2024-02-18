@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -224,6 +225,11 @@ namespace DofusCrafter.UI.Controls
         /// <param name="args"></param>
         private void OnSuggestionTextBoxLoaded(object sender, RoutedEventArgs args)
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                return;
+            }
+
             if (GetTemplateChild("Suggestions") is TextBox textBox)
             {
                 textBox.LostFocus += OnSuggestionTextBoxLostFocus;
@@ -233,7 +239,7 @@ namespace DofusCrafter.UI.Controls
 
             if (GetTemplateChild("SuggestionsPopup") is Popup popup)
             {
-                Window w = Window.GetWindow(popup); 
+                Window w = Window.GetWindow(popup);
 
                 w.Deactivated += delegate (object? s, EventArgs args)
                 {

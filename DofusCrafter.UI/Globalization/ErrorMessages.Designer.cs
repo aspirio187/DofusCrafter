@@ -70,6 +70,15 @@ namespace DofusCrafter.UI.Globalization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à .
+        /// </summary>
+        public static string RegisterIngredientWarning {
+            get {
+                return ResourceManager.GetString("RegisterIngredientWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The error message in english but I want it in french.
         /// </summary>
         public static string SoldItemNameIsRequired {

@@ -1,0 +1,65 @@
+﻿<ContentControl
+    x:Class="DofusCrafter.UI.Views.RegisterIngredientView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cc="clr-namespace:DofusCrafter.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:g="clr-namespace:DofusCrafter.UI.Globalization"
+    xmlns:local="clr-namespace:DofusCrafter.UI.Views"
+    xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
+    mc:Ignorable="d">
+
+    <StackPanel
+        MinWidth="350"
+        MaxWidth="350"
+        Background="White">
+
+        <cc:Disclaimer
+            Margin="5"
+            Content="{g:LocalizedString RegisterIngredientWarning}"
+            Type="Information" />
+
+        <DockPanel LastChildFill="True">
+            <Image
+                Width="100"
+                Height="100"
+                Margin="5"
+                Source="{Binding SelectedIngredient.Img}" />
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="0,0,0,5"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Text="{Binding SelectedIngredient.Name}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+
+                <TextBlock
+                    FontSize="12"
+                    Text="{Binding SelectedIngredient.Description}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </DockPanel>
+
+        <DockPanel Margin="5" LastChildFill="True">
+            <Label Width="80" Content="Quantité" />
+            <TextBox PreviewTextInput="OnPreviewTextInput" Text="{Binding Quantity}" />
+        </DockPanel>
+
+        <DockPanel Margin="5" LastChildFill="True">
+            <Label Width="80" Content="Prix total" />
+            <TextBox Text="{Binding TotalPrice}" />
+        </DockPanel>
+
+        <Button
+            Margin="5"
+            Command="{Binding SaveCommand}"
+            Content="Enregistrer" />
+        <Button
+            Margin="5"
+            Command="{Binding CancelCommand}"
+            Content="Annuler" />
+    </StackPanel>
+</ContentControl>

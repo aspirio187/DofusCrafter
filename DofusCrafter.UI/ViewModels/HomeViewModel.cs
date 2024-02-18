@@ -15,8 +15,6 @@ namespace DofusCrafter.UI.ViewModels
         private readonly DofusDBService _dofusDBService;
         private readonly NavigationManager _navigationManager;
 
-        public ICommand OpenDialog { get; set; }
-
         public HomeViewModel(DofusDBService dofusDBService, NavigationManager navigationManager)
         {
             if (dofusDBService is null)
@@ -31,13 +29,6 @@ namespace DofusCrafter.UI.ViewModels
 
             _dofusDBService = dofusDBService;
             _navigationManager = navigationManager;
-
-            OpenDialog = new GenericCommand(OpenWindow);
-        }
-
-        public void OpenWindow()
-        {
-            _navigationManager.OpenDialog("DialogView");
         }
     }
 }

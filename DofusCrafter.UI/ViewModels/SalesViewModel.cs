@@ -29,7 +29,7 @@ namespace DofusCrafter.UI.ViewModels
 
         public void RegisterSale()
         {
-            _navigationManager.OpenDialog("RegisterSaleView");
+            _navigationManager.OpenDialog("RegisterSaleView", this);
         }
     }
 }

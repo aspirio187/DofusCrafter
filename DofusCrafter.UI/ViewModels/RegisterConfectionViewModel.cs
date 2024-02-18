@@ -1,4 +1,5 @@
 ﻿using DofusCrafter.UI.Commands;
+using DofusCrafter.UI.Managers;
 using DofusCrafter.UI.Mappers;
 using DofusCrafter.UI.Models.DofusDb;
 using DofusCrafter.UI.Models.Dtos;
@@ -16,7 +17,15 @@ namespace DofusCrafter.UI.ViewModels
 {
     public class RegisterConfectionViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The DofusDB service
+        /// </summary>
         private readonly DofusDBService _dofusDbService;
+
+        /// <summary>
+        /// The navigation manager
+        /// </summary>
+        private readonly NavigationManager _navigationManager;
 
         /// <summary>
         /// The list of loaded items from DofusDB api based on the text entered in the sold item name
@@ -79,8 +88,14 @@ namespace DofusCrafter.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// Represent the selected element in the list of items <see cref="Items"/>
+        /// </summary>
         private int _selectedIndex;
 
+        /// <summary>
+        /// Gets or sets the selected index in the <see cref="Items"/> list
+        /// </summary>
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -97,8 +112,14 @@ namespace DofusCrafter.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// The recipe of the currently selected item
+        /// </summary>
         private RecipeDto _recipe = new();
 
+        /// <summary>
+        /// Gets or sets the recipe of the selected item
+        /// </summary>
         public RecipeDto Recipe
         {
             get { return _recipe; }
@@ -109,28 +130,58 @@ namespace DofusCrafter.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// The list of registered ingredients by the user
+        /// </summary>
+        private List<IngredientDto> _registeredIngredients = [];
 
+        /// <summary>
+        /// Gets or sets the list of registered ingredients by the user
+        /// </summary>
+        public List<IngredientDto> RegisteredIngredients
+        {
+            get { return _registeredIngredients; }
+            set
+            {
+                _registeredIngredients = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Command executed when the user click on register an ingredient
+        /// </summary>
+        public ICommand RegisterIngredientCommand { get; private set; }
 
         /// <summary>
         /// Command executed when the search query changes
         /// </summary>
-        public ICommand SearchQueryChangedCommand { get; set; }
+        public ICommand SearchQueryChangedCommand { get; private set; }
 
         /// <summary>
         /// Create a new instance of the <see cref="RegisterConfectionViewModel"/> 
         /// </summary>
         /// <param name="dofusDbService"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public RegisterConfectionViewModel(DofusDBService dofusDbService)
+        public RegisterConfectionViewModel(DofusDBService dofusDbService, NavigationManager navigationManager)
         {
             if (dofusDbService is null)
             {
                 throw new ArgumentNullException(nameof(dofusDbService));
             }
 
-            _dofusDbService = dofusDbService;
+            if (navigationManager is null)
+            {
+                throw new ArgumentNullException(nameof(navigationManager));
+            }
 
+            // Registering injected services
+            _dofusDbService = dofusDbService;
+            _navigationManager = navigationManager;
+
+            // Registering commands
             SearchQueryChangedCommand = new AsyncRelayCommand<TextChangedEventArgs?>(OnSearchQueryChanged);
+            RegisterIngredientCommand = new RelayCommand<int>(RegisterIngredient);
         }
 
         /// <summary>
@@ -150,7 +201,13 @@ namespace DofusCrafter.UI.ViewModels
             Items = [.. result];
         }
 
-        private async Task SelectRecipeAsync(int index)
+        /// <summary>
+        /// Load the recipe of the selected object based on the index of the object in the list of Items
+        /// </summary>
+        /// <param name="index">The index of the selected item in the list of items <see cref="Items"/></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        private async void SelectRecipeAsync(int index)
         {
             if (index < 0)
             {
@@ -174,6 +231,35 @@ namespace DofusCrafter.UI.ViewModels
             }
 
             Recipe = recipeFromService.MapToRecipeDto();
+        }
+
+        private void RegisterIngredient(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            IngredientDto? selectedIngredient = Recipe.Ingredients.SingleOrDefault(i => i.Id == id);
+
+            if (selectedIngredient is null)
+            {
+                throw new NullReferenceException(nameof(selectedIngredient));
+            }
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "ingredient", selectedIngredient }
+            };
+
+            _navigationManager.OpenDialog("RegisterIngredientView", this, parameters);
+        }
+
+        public override void OnNavigatedFrom(Dictionary<string, object>? parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+
+
         }
     }
 }
