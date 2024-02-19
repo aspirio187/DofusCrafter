@@ -12,5 +12,6 @@ namespace DofusCrafter.Data.Entities
         public int ItemId { get; set; }
         public int Quantity { get; set; }
         public List<ConfectionIngredientEntity> ConfectionIngredients { get; set; } = [];
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
