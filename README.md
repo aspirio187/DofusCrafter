@@ -1,4 +1,4 @@
-# DofusCrafter
+# Dofus Crafter
 
 ## Description
 
