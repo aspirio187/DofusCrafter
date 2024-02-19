@@ -28,6 +28,31 @@ namespace DofusCrafter.UI.Services
             var items = await _httpClient.GetAsync("/items");
         }
 
+        /// <summary>
+        /// Get an item by its ID from dofusDB API
+        /// </summary>
+        /// <param name="itemId">The id of the item</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public async Task<ItemModel?> GetItemAsync(int itemId)
+        {
+            if (itemId < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(itemId));
+            }
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/items/{itemId}?lang=fr");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            ItemModel? result = await response.Content.ReadFromJsonAsync<ItemModel?>();
+
+            return result;
+        }
+
         public async Task<IEnumerable<ItemTypeModel>> GetItemTypesAsync()
         {
             HttpResponseMessage response = await _httpClient.GetAsync("/item-types");

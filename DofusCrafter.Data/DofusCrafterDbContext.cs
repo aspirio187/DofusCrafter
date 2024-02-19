@@ -13,6 +13,8 @@ namespace DofusCrafter.Data
         public string DbPath { get; }
 
         public DbSet<SaleEntity> Sales { get; set; }
+        public DbSet<ConfectionEntity> Confections { get; set; }
+        public DbSet<ConfectionIngredientEntity> ConfectionsIngredients { get; set; }
 
         public DofusCrafterDbContext()
         {

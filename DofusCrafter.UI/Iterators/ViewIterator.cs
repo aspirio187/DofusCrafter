@@ -153,16 +153,26 @@ namespace DofusCrafter.UI.Iterators
         }
 
         /// <summary>
-        /// Move to the previous element in the iterator
+        /// Move to the previous element in the iterator and remove the current element
         /// </summary>
         /// <returns>true If moving to the previous element is possible. false Otherwise</returns>
         /// <exception cref="NullReferenceException"></exception>
-        public bool MovePrevious()
+        public bool MovePrevious(bool removeCurrent = false)
         {
             if (_controls is null) throw new NullReferenceException(nameof(_controls));
             if (_position - 1 >= 0)
             {
                 _position--;
+
+                if(removeCurrent)
+                {
+                    ContentControl[] temp = new ContentControl[_controls.Length - 1];
+
+                    Array.Copy(_controls, temp, _controls.Length - 1);
+
+                    _controls = temp;
+                }
+
                 return true;
             }
             return false;

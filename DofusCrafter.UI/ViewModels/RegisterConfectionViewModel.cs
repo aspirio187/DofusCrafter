@@ -29,6 +29,11 @@ namespace DofusCrafter.UI.ViewModels
         private readonly NavigationManager _navigationManager;
 
         /// <summary>
+        /// Database service taking care of everything related to the confection
+        /// </summary>
+        private readonly IConfectionService _confectionService;
+
+        /// <summary>
         /// The list of loaded items from DofusDB api based on the text entered in the sold item name
         /// </summary>
         private ObservableCollection<ItemModel> _items = [];
@@ -146,6 +151,25 @@ namespace DofusCrafter.UI.ViewModels
         }
 
         /// <summary>
+        /// The quantity of item created
+        /// </summary>
+        private string _quantity;
+
+        /// <summary>
+        /// Gets or sets the quantity of item created
+        /// </summary>
+        public string Quantity
+        {
+            get { return _quantity; }
+            set
+            {
+                _quantity = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        /// <summary>
         /// Command executed when the user click on register an ingredient
         /// </summary>
         public ICommand RegisterIngredientCommand { get; private set; }
@@ -156,11 +180,22 @@ namespace DofusCrafter.UI.ViewModels
         public ICommand SearchQueryChangedCommand { get; private set; }
 
         /// <summary>
+        /// Command executed when the save confection button is clicked
+        /// </summary>
+        public ICommand SaveConfectionCommand { get; private set; }
+
+        /// <summary>
+        /// Command executed when the cancel button is clicked
+        /// </summary>
+        public ICommand CancelConfectionCommand { get; private set; }
+
+        /// <summary>
         /// Create a new instance of the <see cref="RegisterConfectionViewModel"/> 
         /// </summary>
         /// <param name="dofusDbService"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public RegisterConfectionViewModel(DofusDBService dofusDbService, NavigationManager navigationManager)
+        public RegisterConfectionViewModel(DofusDBService dofusDbService, NavigationManager navigationManager,
+            IConfectionService confectionService)
         {
             if (dofusDbService is null)
             {
@@ -172,13 +207,21 @@ namespace DofusCrafter.UI.ViewModels
                 throw new ArgumentNullException(nameof(navigationManager));
             }
 
+            if (confectionService is null)
+            {
+                throw new ArgumentNullException(nameof(confectionService));
+            }
+
             // Registering injected services
             _dofusDbService = dofusDbService;
             _navigationManager = navigationManager;
+            _confectionService = confectionService;
 
             // Registering commands
             SearchQueryChangedCommand = new AsyncRelayCommand<TextChangedEventArgs?>(OnSearchQueryChanged);
             RegisterIngredientCommand = new RelayCommand<int>(RegisterIngredient);
+            SaveConfectionCommand = new GenericCommand(SaveConfection);
+            CancelConfectionCommand = new GenericCommand(CancelConfection);
         }
 
         /// <summary>
@@ -230,6 +273,12 @@ namespace DofusCrafter.UI.ViewModels
             Recipe = recipeFromService.MapToRecipeDto();
         }
 
+        /// <summary>
+        /// Open a new dialog to register the currently selected ingredient
+        /// </summary>
+        /// <param name="id">The id of the item</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         private void RegisterIngredient(int id)
         {
             if (id < 0)
@@ -318,6 +367,38 @@ namespace DofusCrafter.UI.ViewModels
 
                 RegisteredIngredients.Add(existingRegisteredIngredient);
             }
+        }
+
+        /// <summary>
+        /// Save the registered confection in the database and close this dialog. Tells the parent view to reload its list
+        /// </summary>
+        private void SaveConfection()
+        {
+            if (!int.TryParse(Quantity, out int quantity))
+            {
+                throw new InvalidCastException("The quantity should be an integer!");
+            }
+
+            if (!_confectionService.SaveConfection(Recipe.Id, quantity, [.. RegisteredIngredients]))
+            {
+                return;
+            }
+
+            _navigationManager.CloseDialog("RegisterConfectionView", new()
+            {
+                { "reload", true }
+            });
+        }
+
+        /// <summary>
+        /// Cancel the confection and communicate to the caller view that the list of confections should not be reloaded
+        /// </summary>
+        private void CancelConfection()
+        {
+            _navigationManager.CloseDialog("RegisterConfectionView", new()
+            {
+                { "reload", false  }
+            });
         }
     }
 }

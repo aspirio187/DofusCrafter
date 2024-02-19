@@ -14,19 +14,6 @@
         MaxWidth="1000"
         MaxHeight="1200"
         Background="White">
-        <!--
-            1. Selectionner l'objet à confectioner
-            2. Charger les items requis à sa confection
-            3. Pour chaque item requis à la confection, autoriser l'utilisateur à entrer un prix et une quantité:
-            - Epee de boisalle : bois de frene 10x
-            - Bois de frene 5 - 2500 kamas/unité
-            - Bois de frene 1 - 2501 kamas/unité
-            - Bois de frene 4 - 2502 kamas/unité
-            4. Afficher le prix total de la confection
-            5. (Optionel) ajouter le prix moyen de l'objet
-            6. Ajouter le prix en vente/le prix de vente souhaité
-        -->
-
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -153,6 +140,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -165,8 +153,22 @@
                     FontWeight="Bold"
                     Text="Ingrédients enregistrés" />
 
-                <DataGrid
+                <StackPanel
                     Grid.Row="1"
+                    Margin="0,5,0,5"
+                    Orientation="Horizontal">
+                    <Label
+                        Width="120"
+                        HorizontalContentAlignment="Left"
+                        Content="Quantité fabriquée" />
+                    <TextBox
+                        Width="250"
+                        PreviewTextInput="OnPreviewTextInput"
+                        Text="{Binding Quantity}" />
+                </StackPanel>
+
+                <DataGrid
+                    Grid.Row="2"
                     MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}}"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
@@ -277,12 +279,14 @@
                 Width="200"
                 Margin="5"
                 Padding="5"
+                Command="{Binding CancelConfectionCommand}"
                 Content="Annuler"
                 FontSize="20" />
             <Button
                 Width="200"
                 Margin="5"
                 Padding="5"
+                Command="{Binding SaveConfectionCommand}"
                 Content="Enregistrer"
                 FontSize="20" />
         </DockPanel>

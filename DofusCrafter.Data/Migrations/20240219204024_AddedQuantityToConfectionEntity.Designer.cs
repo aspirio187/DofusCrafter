@@ -3,6 +3,7 @@ using System;
 using DofusCrafter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DofusCrafter.Data.Migrations
 {
     [DbContext(typeof(DofusCrafterDbContext))]
-    partial class DofusCrafterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240219204024_AddedQuantityToConfectionEntity")]
+    partial class AddedQuantityToConfectionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");

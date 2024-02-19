@@ -24,5 +24,26 @@ namespace DofusCrafter.UI.Views
         {
             InitializeComponent();
         }
+
+        private void OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Ensure sender is not null
+            TextBox textBox = sender as TextBox ?? throw new NullReferenceException(nameof(sender));
+
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Combine the current text with the previewed text
+            string newText = textBox.Text + e.Text;
+
+            // Check if the resulting text is a positive integer
+            if (!int.TryParse(newText, out int result) || result <= 0)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -19,8 +19,19 @@ namespace DofusCrafter.UI.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        
+
+        /// <summary>
+        /// Function executed on initialization of the view model
+        /// </summary>
+        public virtual void OnInit()
+        {
+
+        }
+
+        /// <summary>
         /// Executed when the a dialog opened from this view model was closed and contained parameters.
+        /// </summary>
+        /// <param name="parameters"></param>
         public virtual void OnNavigatedFrom(Dictionary<string, object>? parameters)
         {
         }
