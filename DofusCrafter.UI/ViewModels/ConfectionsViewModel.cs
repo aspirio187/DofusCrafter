@@ -46,9 +46,32 @@ namespace DofusCrafter.UI.ViewModels
         }
 
         /// <summary>
+        /// The search query that the user enters in the search text box
+        /// </summary>
+        private string _searchQuery = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the search query
+        /// </summary>
+        public string SearchQuery
+        {
+            get { return _searchQuery; }
+            set
+            {
+                _searchQuery = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Command executed when the user click on register a new confection
         /// </summary>
         public ICommand RegisterConfectionCommand { get; private set; }
+
+        /// <summary>
+        /// Command executed when the user changes the text in the search query textbox
+        /// </summary>
+        public ICommand SearchQueryChangedCommand { get; private set; }
 
         /// <summary>
         /// Create a new instance
@@ -73,6 +96,7 @@ namespace DofusCrafter.UI.ViewModels
 
             // Commands registration
             RegisterConfectionCommand = new GenericCommand(RegisterConfection);
+            SearchQueryChangedCommand = new GenericCommand(OnSearchQueryChanged);
         }
 
         /// <summary>
@@ -89,7 +113,39 @@ namespace DofusCrafter.UI.ViewModels
         /// <returns></returns>
         private async Task LoadConfections()
         {
-            Confections = new ObservableCollection<ConfectionModel>(await _confectionService.GetConfectionsAsync());
+            Confections = new ObservableCollection<ConfectionModel>
+                ((await _confectionService
+                    .GetConfectionsAsync())
+                    .OrderByDescending(c => c.CreatedAt));
+        }
+
+        /// <summary>
+        /// If the search query contains a non-empty value, it will search the list of confections and retrieve
+        /// all the values where the slug or the name contains any word of the search query. Otherwise, reload the 
+        /// confections list
+        /// </summary>
+        private void OnSearchQueryChanged()
+        {
+            if (SearchQuery is null || SearchQuery.Trim().Length <= 0)
+            {
+                Task.Factory.StartNew(LoadConfections);
+                return;
+            }
+
+            string searchQuery = SearchQuery.Trim();
+
+            string[] queryWords = searchQuery.Split(' ');
+
+            List<ConfectionModel> tempConfection = new List<ConfectionModel>();
+
+            foreach (string word in queryWords)
+            {
+                IEnumerable<ConfectionModel> result = Confections.Where(c => c.Slug.Contains(word) || c.Name.Contains(word));
+
+                tempConfection.AddRange(result);
+            }
+
+            Confections = new ObservableCollection<ConfectionModel>(tempConfection);
         }
 
         /// <summary>
