@@ -3,6 +3,7 @@ using DofusCrafter.UI.Iterators;
 using DofusCrafter.UI.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -130,6 +131,11 @@ namespace DofusCrafter.UI.Managers
                 ResizeMode = ResizeMode.NoResize
             };
 
+            window.Closing += delegate (object? sender, CancelEventArgs e)
+            {
+                CloseDialog(viewName);
+            };
+
 
             ContentControl? view = NavigationStack[viewName];
 
@@ -206,7 +212,15 @@ namespace DofusCrafter.UI.Managers
                     viewModel.OnNavigatedFrom(parameters);
                 }
 
-                window.Close();
+                try
+                {
+                    window.Close();
+                }
+                catch (InvalidOperationException e)
+                {
+                    // TODO: add logging saying window is already closed
+                }
+
                 OpenedDialogs.Remove(openedDialog.Key);
             }
         }
