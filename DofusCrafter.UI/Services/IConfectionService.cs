@@ -1,6 +1,7 @@
 ﻿using DofusCrafter.Data.Entities;
 using DofusCrafter.UI.Models;
 using DofusCrafter.UI.Models.Dtos;
+using DofusCrafter.UI.Models.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,6 @@ namespace DofusCrafter.UI.Services
         /// <returns>
         /// true If the craft was successfully saved. false Otherwise
         /// </returns>
-        bool SaveConfection(int itemId, int quantity, List<RegisteredIngredientDto> ingredients);
+        bool SaveConfection(ConfectionForm confection);
     }
 }

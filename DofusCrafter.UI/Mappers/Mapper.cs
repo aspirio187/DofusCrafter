@@ -29,6 +29,7 @@ namespace DofusCrafter.UI.Mappers
             {
                 Id = model.Result.Id,
                 ItemName = model.ResultName.Fr,
+                Slug = model.Result.Slug.Fr,
                 Description = model.Result.Description.Fr,
                 Level = model.Result.Level,
                 Img = model.Result.Img,

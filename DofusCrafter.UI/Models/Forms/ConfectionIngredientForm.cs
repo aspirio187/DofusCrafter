@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace DofusCrafter.UI.Models.Forms
 {
-    public class ConfectionForm
+    public class ConfectionIngredientForm
     {
         public int ItemId { get; set; }
         public int Quantity { get; set; }
-        public string Slug { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public List<ConfectionIngredientForm> ConfectionIngredients { get; set; } = [];
+        public int Price { get; set; }
     }
 }

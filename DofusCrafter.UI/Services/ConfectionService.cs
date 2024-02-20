@@ -3,6 +3,7 @@ using DofusCrafter.Data.Entities;
 using DofusCrafter.UI.Models;
 using DofusCrafter.UI.Models.DofusDb;
 using DofusCrafter.UI.Models.Dtos;
+using DofusCrafter.UI.Models.Forms;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -72,46 +73,45 @@ namespace DofusCrafter.UI.Services
                     Id = confectionFromDb.Id,
                     ItemId = confectionFromDb.ItemId,
                     Name = itemFromDofusDb.Name.Fr,
+                    Slug = itemFromDofusDb.Slug.Fr,
                     Description = itemFromDofusDb.Description.Fr,
                     Image = itemFromDofusDb.Img,
                     Quantity = confectionFromDb.Quantity,
-                    TotalPrice = confectionFromDb.ConfectionIngredients.Sum(ci => ci.Price)
+                    TotalPrice = confectionFromDb.ConfectionIngredients.Sum(ci => ci.Price),
+                    CreatedAt = confectionFromDb.CreatedAt,
                 });
             }
 
             return confections;
         }
 
-        public bool SaveConfection(int itemId, int quantity, List<RegisteredIngredientDto> ingredients)
+        /// <summary>
+        /// Create a new confection with its ingredients and save it in the local database
+        /// </summary>
+        /// <param name="confection"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public bool SaveConfection(ConfectionForm confection)
         {
-            if (itemId < 0)
+            if (confection is null)
             {
-                throw new ArgumentOutOfRangeException(nameof(itemId));
+                throw new ArgumentNullException(nameof(confection));
             }
 
-            if (ingredients is null)
+            ConfectionEntity confectionEntity = new ConfectionEntity()
             {
-                throw new ArgumentNullException(nameof(ingredients));
-            }
-
-            if (quantity < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(quantity)} {quantity}");
-            }
-
-            ConfectionEntity confection = new ConfectionEntity()
-            {
-                ItemId = itemId,
-                Quantity = quantity,
+                ItemId = confection.ItemId,
+                Quantity = confection.Quantity,
+                Slug = confection.Slug,
             };
 
-            _dbContext.Confections.Add(confection);
+            _dbContext.Confections.Add(confectionEntity);
 
-            confection.ConfectionIngredients = ingredients.Select(i => new ConfectionIngredientEntity()
+            confectionEntity.ConfectionIngredients = confection.ConfectionIngredients.Select(i => new ConfectionIngredientEntity()
             {
-                Price = i.TotalPrice,
-                Quantity = i.QuantityRegistered,
-                Confection = confection
+                Price = i.Price,
+                Quantity = i.Quantity,
+                Confection = confectionEntity
             }).ToList();
 
             return _dbContext.SaveChanges() > 0;

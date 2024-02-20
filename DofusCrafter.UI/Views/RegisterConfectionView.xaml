@@ -153,18 +153,43 @@
                     FontWeight="Bold"
                     Text="Ingrédients enregistrés" />
 
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="0,5,0,5"
-                    Orientation="Horizontal">
-                    <Label
-                        Width="120"
-                        HorizontalContentAlignment="Left"
-                        Content="Quantité fabriquée" />
-                    <TextBox
-                        Width="250"
-                        PreviewTextInput="OnPreviewTextInput"
-                        Text="{Binding Quantity}" />
+                <StackPanel Grid.Row="1" Margin="0,5,0,5">
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label
+                            Width="150"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Content="Quantité fabriquée" />
+                        <TextBox
+                            Width="200"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="OnPreviewTextInput"
+                            Text="{Binding Quantity}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label
+                            Width="150"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Content="Date et heures de création" />
+
+                        <DatePicker
+                            Width="200"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            SelectedDate="{Binding CreatedAt}"
+                            SelectedDateFormat="Short" />
+
+                        <TextBox
+                            Width="100"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            PreviewTextInput="OnPreviewTimeTextInput"
+                            Text="{Binding Time}" />
+                    </StackPanel>
                 </StackPanel>
 
                 <DataGrid

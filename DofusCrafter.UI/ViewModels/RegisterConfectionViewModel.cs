@@ -3,6 +3,7 @@ using DofusCrafter.UI.Managers;
 using DofusCrafter.UI.Mappers;
 using DofusCrafter.UI.Models.DofusDb;
 using DofusCrafter.UI.Models.Dtos;
+using DofusCrafter.UI.Models.Forms;
 using DofusCrafter.UI.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -164,6 +165,39 @@ namespace DofusCrafter.UI.ViewModels
             set
             {
                 _quantity = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// The date and time at which the item is created
+        /// </summary>
+        private DateTime _createdAt = DateTime.Now;
+
+        /// <summary>
+        /// Gets or sets the date and time at which the item is created
+        /// </summary>
+        public DateTime CreatedAt
+        {
+            get { return _createdAt; }
+            set
+            {
+                _createdAt = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// The time at which the 
+        /// </summary>
+        private string _time = DateTime.Now.TimeOfDay.ToString("hh\\:mm");
+
+        public string Time
+        {
+            get { return CreatedAt.TimeOfDay.ToString(); }
+            set
+            {
+                CreatedAt = new DateTime(DateOnly.FromDateTime(CreatedAt) , TimeOnly.Parse(value));
                 NotifyPropertyChanged();
             }
         }
@@ -379,7 +413,23 @@ namespace DofusCrafter.UI.ViewModels
                 throw new InvalidCastException("The quantity should be an integer!");
             }
 
-            if (!_confectionService.SaveConfection(Recipe.Id, quantity, [.. RegisteredIngredients]))
+            ConfectionForm confectionForm = new ConfectionForm()
+            {
+                ItemId = Recipe.Id,
+                Slug = Recipe.Slug,
+                Quantity = quantity,
+                CreatedAt = CreatedAt,
+                ConfectionIngredients = RegisteredIngredients
+                    .Select(r => new ConfectionIngredientForm()
+                    {
+                        ItemId = r.SelectedIngredient.Id,
+                        Price = r.TotalPrice,
+                        Quantity = r.QuantityRegistered
+                    })
+                    .ToList()
+            };
+
+            if (!_confectionService.SaveConfection(confectionForm))
             {
                 return;
             }

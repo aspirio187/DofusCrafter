@@ -84,7 +84,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn
-                    MinWidth="150"
+                    MinWidth="50"
                     Header="Quantité fabriquée"
                     IsReadOnly="True">
                     <DataGridTextColumn.CellStyle>
@@ -93,12 +93,11 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DataGridCell">
                                         <Border
-                                            Padding="5"
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}">
                                             <ContentPresenter
-                                                HorizontalAlignment="Left"
+                                                HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Content="{Binding Quantity}" />
                                         </Border>
@@ -110,7 +109,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn
-                    Width="150"
+                    MinWidth="100"
                     Header="Prix total (kamas)"
                     IsReadOnly="True">
                     <DataGridTextColumn.CellStyle>
@@ -124,9 +123,35 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}">
                                             <ContentPresenter
-                                                HorizontalAlignment="Left"
+                                                HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Content="{Binding TotalPrice}" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn
+                    Width="150"
+                    Header="Date de fabrication"
+                    IsReadOnly="True">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border
+                                            Padding="5"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding CreatedAt, StringFormat='dd-MM-yyyy HH:mm'}" />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>

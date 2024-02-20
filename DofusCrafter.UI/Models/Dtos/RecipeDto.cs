@@ -24,6 +24,11 @@ namespace DofusCrafter.UI.Models.Dtos
         public string ItemName { get; set; } = string.Empty;
 
         /// <summary>
+        /// The slug for this item
+        /// </summary>
+        public string Slug { get; set; } = string.Empty;
+
+        /// <summary>
         /// The description of the item
         /// </summary>
         public string Description { get; set; } = string.Empty;

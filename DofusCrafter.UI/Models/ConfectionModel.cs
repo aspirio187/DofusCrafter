@@ -12,8 +12,10 @@ namespace DofusCrafter.UI.Models
         public int ItemId { get; set; }
         public string Image { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int Quantity { get; set; }
         public int TotalPrice { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
