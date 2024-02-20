@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DofusCrafter.UI.ViewModels
@@ -96,7 +97,7 @@ namespace DofusCrafter.UI.ViewModels
 
             // Commands registration
             RegisterConfectionCommand = new GenericCommand(RegisterConfection);
-            SearchQueryChangedCommand = new GenericCommand(OnSearchQueryChanged);
+            SearchQueryChangedCommand = new AsyncRelayCommand<string>(OnSearchQueryChanged);
         }
 
         /// <summary>
@@ -124,28 +125,24 @@ namespace DofusCrafter.UI.ViewModels
         /// all the values where the slug or the name contains any word of the search query. Otherwise, reload the 
         /// confections list
         /// </summary>
-        private void OnSearchQueryChanged()
+        private async Task OnSearchQueryChanged(string? query)
         {
-            if (SearchQuery is null || SearchQuery.Trim().Length <= 0)
+            if (query is null || query.Trim().Length <= 0)
             {
-                Task.Factory.StartNew(LoadConfections);
+                await LoadConfections();
                 return;
             }
 
-            string searchQuery = SearchQuery.Trim();
+            string searchQuery = query.Trim();
 
             string[] queryWords = searchQuery.Split(' ');
 
-            List<ConfectionModel> tempConfection = new List<ConfectionModel>();
+            SearchQuery = query;
 
-            foreach (string word in queryWords)
-            {
-                IEnumerable<ConfectionModel> result = Confections.Where(c => c.Slug.Contains(word) || c.Name.Contains(word));
-
-                tempConfection.AddRange(result);
-            }
-
-            Confections = new ObservableCollection<ConfectionModel>(tempConfection);
+            Confections = new ObservableCollection<ConfectionModel>
+                ((await _confectionService
+                    .GetConfectionsAsync(queryWords))
+                    .OrderByDescending(c => c.CreatedAt));
         }
 
         /// <summary>

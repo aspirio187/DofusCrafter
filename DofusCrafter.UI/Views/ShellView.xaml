@@ -71,7 +71,7 @@
                 Content="Mes confections"
                 FontSize="25"
                 GroupName="Nav"
-                IsChecked="{Binding ConfectionView, Converter={StaticResource CurrentViewIsChecked}, ConverterParameter=ConfectionsView}"
+                IsChecked="{Binding CurrentView, Converter={StaticResource CurrentViewIsChecked}, ConverterParameter=ConfectionsView}"
                 Style="{StaticResource NavMenu}" />
         </StackPanel>
 

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DofusCrafter.UI.Services
 {
@@ -42,10 +43,7 @@ namespace DofusCrafter.UI.Services
         /// </returns>
         public async Task<IEnumerable<ConfectionModel>> GetConfectionsAsync()
         {
-            var confectionsFromDb = _dbContext
-                .Confections
-                .Include(confection => confection.ConfectionIngredients)
-                .ToList();
+            List<ConfectionEntity> confectionsFromDb = [.. _dbContext.Confections.Include(confection => confection.ConfectionIngredients)];
 
             if (confectionsFromDb.Count == 0)
             {
@@ -86,6 +84,33 @@ namespace DofusCrafter.UI.Services
         }
 
         /// <summary>
+        /// Get all the confections and filter them
+        /// </summary>
+        /// <param name="searchQuery">The array of filters to apply on the list</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<IEnumerable<ConfectionModel>> GetConfectionsAsync(string[] searchQuery)
+        {
+            if (searchQuery is null)
+            {
+                throw new ArgumentNullException(nameof(searchQuery));
+            }
+
+            var confections = await GetConfectionsAsync();
+
+            List<ConfectionModel> finalResult = [];
+
+            foreach (string word in searchQuery)
+            {
+                IEnumerable<ConfectionModel> result = confections.Where(c => c.Slug.Contains(word) || c.Name.Contains(word));
+
+                finalResult.AddRange(result);
+            }
+
+            return finalResult;
+        }
+
+        /// <summary>
         /// Create a new confection with its ingredients and save it in the local database
         /// </summary>
         /// <param name="confection"></param>
@@ -107,12 +132,16 @@ namespace DofusCrafter.UI.Services
 
             _dbContext.Confections.Add(confectionEntity);
 
-            confectionEntity.ConfectionIngredients = confection.ConfectionIngredients.Select(i => new ConfectionIngredientEntity()
-            {
-                Price = i.Price,
-                Quantity = i.Quantity,
-                Confection = confectionEntity
-            }).ToList();
+            confectionEntity.ConfectionIngredients = confection
+                .ConfectionIngredients
+                .Select(i => 
+                    new ConfectionIngredientEntity()
+                    {
+                        Price = i.Price,
+                        Quantity = i.Quantity,
+                        Confection = confectionEntity
+                    })
+                .ToList();
 
             return _dbContext.SaveChanges() > 0;
         }

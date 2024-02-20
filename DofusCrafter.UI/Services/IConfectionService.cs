@@ -19,6 +19,14 @@ namespace DofusCrafter.UI.Services
         Task<IEnumerable<ConfectionModel>> GetConfectionsAsync();
 
         /// <summary>
+        /// Retrieves all the confections from the local database and searches if the list contains any
+        /// element of <paramref name="searchQuery"/>
+        /// </summary>
+        /// <param name="searchQuery">The keys to search</param>
+        /// <returns></returns>
+        Task<IEnumerable<ConfectionModel>> GetConfectionsAsync(string[] searchQuery);
+
+        /// <summary>
         /// Save the confection of an item in the local database
         /// </summary>
         /// <param name="itemId">The item of the crafted item</param>
