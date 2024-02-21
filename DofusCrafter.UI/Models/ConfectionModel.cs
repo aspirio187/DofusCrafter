@@ -16,6 +16,10 @@ namespace DofusCrafter.UI.Models
         public string Description { get; set; } = string.Empty;
         public int Quantity { get; set; }
         public int TotalPrice { get; set; }
+        public bool Sold { get; set; }
+        public DateTime? SoldAt { get; set; }
+        public int QuantitySold { get; set; }
+        public int TotalSalePrice { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }
