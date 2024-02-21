@@ -123,6 +123,12 @@
   <data name="RegisterIngredientWarning" xml:space="preserve">
     <value />
   </data>
+  <data name="SoldConfectionInformation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SoldItemDateTimeInformation" xml:space="preserve">
+    <value />
+  </data>
   <data name="SoldItemNameIsRequired" xml:space="preserve">
     <value>The error message in english but I want it in french</value>
   </data>

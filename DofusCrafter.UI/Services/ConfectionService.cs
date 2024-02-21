@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DofusCrafter.UI.Services
 {
@@ -111,6 +110,51 @@ namespace DofusCrafter.UI.Services
         }
 
         /// <summary>
+        /// Get a confection from the databse by its id
+        /// </summary>
+        /// <param name="id">The id of the confection</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public async Task<ConfectionModel?> GetConfectionAsync(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            ConfectionEntity? confectionFromDb =
+                _dbContext
+                    .Confections
+                    .Include(c => c.ConfectionIngredients)
+                    .SingleOrDefault(c => c.Id == id);
+
+            if (confectionFromDb is null)
+            {
+                return null;
+            }
+
+            ItemModel? itemFromDofusDb = await _dofusDbService.GetItemAsync(confectionFromDb.ItemId);
+
+            if (itemFromDofusDb is null)
+            {
+                return null;
+            }
+
+            return new ConfectionModel()
+            {
+                Id = confectionFromDb.Id,
+                ItemId = confectionFromDb.ItemId,
+                Name = itemFromDofusDb.Name.Fr,
+                Slug = itemFromDofusDb.Slug.Fr,
+                Description = itemFromDofusDb.Description.Fr,
+                Image = itemFromDofusDb.Img,
+                Quantity = confectionFromDb.Quantity,
+                TotalPrice = confectionFromDb.ConfectionIngredients.Sum(ci => ci.Price),
+                CreatedAt = confectionFromDb.CreatedAt,
+            };
+        }
+
+        /// <summary>
         /// Create a new confection with its ingredients and save it in the local database
         /// </summary>
         /// <param name="confection"></param>
@@ -134,7 +178,7 @@ namespace DofusCrafter.UI.Services
 
             confectionEntity.ConfectionIngredients = confection
                 .ConfectionIngredients
-                .Select(i => 
+                .Select(i =>
                     new ConfectionIngredientEntity()
                     {
                         Price = i.Price,

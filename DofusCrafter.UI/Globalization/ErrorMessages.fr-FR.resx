@@ -123,6 +123,12 @@
   <data name="RegisterIngredientWarning" xml:space="preserve">
     <value>Lorsque vous enregistrez un ingrédient, veuillez bien enregistrer le prix total de la quantité sélectionnée. Si vous avez achetez 3 éléments au prix de 12 000 kamas mais que deux élements ont couté 2000 kamas et le dernier à couté 10 000 kamas, enregistrez bien 12 000.</value>
   </data>
+  <data name="SoldConfectionInformation" xml:space="preserve">
+    <value>Lorsque vous enregistrez une vente, faites bien attention à enregistrer les éléments qui se sont vendus au même prix. Ceci risquerait de biaiser les statistiques.</value>
+  </data>
+  <data name="SoldItemDateTimeInformation" xml:space="preserve">
+    <value>Si vous n'avez pas l'heure exact de la vente, vous pouvez soit laisser le champ à minuit, soit noter l'heure actuelle.</value>
+  </data>
   <data name="SoldItemNameIsRequired" xml:space="preserve">
     <value>Le nom de l'item vendu est requis !</value>
   </data>

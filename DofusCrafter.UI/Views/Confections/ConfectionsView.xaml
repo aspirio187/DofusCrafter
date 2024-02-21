@@ -45,6 +45,7 @@
             Grid.Row="1"
             Margin="10"
             AutoGenerateColumns="False"
+            CanUserAddRows="False"
             ItemsSource="{Binding Confections}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
@@ -168,6 +169,17 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
+
+                <DataGridTemplateColumn Width="120" Header="Enregistrer la vente">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding DataContext.RegisterItemSoldCommand, RelativeSource={RelativeSource AncestorType={x:Type local:ConfectionsView}}}"
+                                CommandParameter="{Binding Id}"
+                                Content="Vendre" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

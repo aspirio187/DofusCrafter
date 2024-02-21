@@ -27,6 +27,14 @@ namespace DofusCrafter.UI.Services
         Task<IEnumerable<ConfectionModel>> GetConfectionsAsync(string[] searchQuery);
 
         /// <summary>
+        /// Get a confection from the databse by its id
+        /// </summary>
+        /// <param name="id">The id of the confection</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        Task<ConfectionModel?> GetConfectionAsync(int id);
+
+        /// <summary>
         /// Save the confection of an item in the local database
         /// </summary>
         /// <param name="itemId">The item of the crafted item</param>

@@ -75,6 +75,11 @@ namespace DofusCrafter.UI.ViewModels
         public ICommand SearchQueryChangedCommand { get; private set; }
 
         /// <summary>
+        /// Command executed when the user decide to register a confection as sold
+        /// </summary>
+        public ICommand RegisterItemSoldCommand { get; private set; }
+
+        /// <summary>
         /// Create a new instance
         /// </summary>
         /// <param name="navigationManager"></param>
@@ -98,6 +103,7 @@ namespace DofusCrafter.UI.ViewModels
             // Commands registration
             RegisterConfectionCommand = new GenericCommand(RegisterConfection);
             SearchQueryChangedCommand = new AsyncRelayCommand<string>(OnSearchQueryChanged);
+            RegisterItemSoldCommand = new AsyncRelayCommand<int>(RegisterItemSoldAsync);
         }
 
         /// <summary>
@@ -151,6 +157,33 @@ namespace DofusCrafter.UI.ViewModels
         private void RegisterConfection()
         {
             _navigationManager.OpenDialog("RegisterConfectionView", this);
+        }
+
+        /// <summary>
+        /// Event handler for <see cref="RegisterItemSoldCommand"/>.
+        /// Register a confection as sold
+        /// </summary>
+        /// <param name="confectionId"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private async Task RegisterItemSoldAsync(int confectionId)
+        {
+            if (confectionId < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(confectionId));
+            }
+
+            ConfectionModel? selectedConfection = await _confectionService.GetConfectionAsync(confectionId);
+
+            if (selectedConfection is null)
+            {
+                // TODO: Log information or send info to the user
+                return;
+            }
+
+            _navigationManager.OpenDialog("RegisterSoldConfectionView", this, new()
+            {
+                { "selectedConfection",  selectedConfection}
+            });
         }
 
         /// <summary>

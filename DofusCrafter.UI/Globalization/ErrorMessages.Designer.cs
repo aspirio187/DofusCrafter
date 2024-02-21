@@ -79,6 +79,24 @@ namespace DofusCrafter.UI.Globalization {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à .
+        /// </summary>
+        public static string SoldConfectionInformation {
+            get {
+                return ResourceManager.GetString("SoldConfectionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à .
+        /// </summary>
+        public static string SoldItemDateTimeInformation {
+            get {
+                return ResourceManager.GetString("SoldItemDateTimeInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The error message in english but I want it in french.
         /// </summary>
         public static string SoldItemNameIsRequired {
