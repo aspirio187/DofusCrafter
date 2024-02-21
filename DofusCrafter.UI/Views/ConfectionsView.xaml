@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:DofusCrafter.UI.Views"
     xmlns:locator="clr-namespace:DofusCrafter.UI.Locators"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="400"
     d:DesignWidth="800"
     locator:ViewModelLocator.AutoConnectedViewModelProperty="True"
     mc:Ignorable="d">
